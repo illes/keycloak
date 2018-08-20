@@ -854,7 +854,7 @@ public class TokenManager {
 
         public AccessTokenResponseBuilder generateCodeHash(String code) {
             // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-            codeHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(session, realm, client), code);
+            codeHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), code);
             return this;
         }
 
@@ -862,7 +862,7 @@ public class TokenManager {
         // http://openid.net/specs/openid-financial-api-part-2.html#authorization-server
         public AccessTokenResponseBuilder generateStateHash(String state) {
             // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-            stateHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(session, realm, client), state);
+            stateHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), state);
             return this;
         }
 
@@ -883,7 +883,7 @@ public class TokenManager {
             AccessTokenResponse res = new AccessTokenResponse();
 
             // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-            TokenSignature ts = TokenSignature.getInstance(session, realm, TokenSignatureUtil.getTokenSignatureAlgorithm(session, realm, client));
+            TokenSignature ts = TokenSignature.getInstance(session, realm, TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client));
 
             if (accessToken != null) {
                 // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
@@ -898,7 +898,7 @@ public class TokenManager {
 
             if (generateAccessTokenHash) {
                 // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-                String atHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(session, realm, client), res.getToken());
+                String atHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), res.getToken());
                 idToken.setAccessTokenHash(atHash);
             }
             if (codeHash != null) {

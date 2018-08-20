@@ -16,7 +16,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.common.util.Base64;
 import org.keycloak.common.util.MultivaluedHashMap;
-import org.keycloak.jose.jws.EcdsaTokenSignatureProviderFactory;
+import org.keycloak.jose.jws.ES256TokenSignatureProviderFactory;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.TokenSignatureProvider;
 import org.keycloak.keys.GeneratedEcdsaKeyProviderFactory;
@@ -67,7 +67,7 @@ public class TokenSignatureUtil {
     public static void registerTokenSignatureProvider(String sigAlgName, Keycloak adminClient, TestContext testContext) {
         long priority = System.currentTimeMillis();
 
-        ComponentRepresentation rep = createTokenSignatureRep("valid", EcdsaTokenSignatureProviderFactory.ID);
+        ComponentRepresentation rep = createTokenSignatureRep("valid", ES256TokenSignatureProviderFactory.ID);
         rep.setConfig(new MultivaluedHashMap<>());
         rep.getConfig().putSingle("priority", Long.toString(priority));
         rep.getConfig().putSingle("org.keycloak.jose.jws.TokenSignatureProvider.algorithm", sigAlgName);

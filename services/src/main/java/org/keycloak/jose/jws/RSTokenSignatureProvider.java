@@ -5,25 +5,19 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
 
-import org.keycloak.component.ComponentModel;
-import org.keycloak.models.KeycloakSession;
+public class RSTokenSignatureProvider implements TokenSignatureProvider {
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
+    private String javaAlgorithm;
 
-public class RsassaTokenSignatureProvider extends AbstractTokenSignatureProvider {
-
-    public RsassaTokenSignatureProvider(KeycloakSession session, ComponentModel model) {
-        super(session, model);
+    public RSTokenSignatureProvider(String javaAlgorithm) {
+        this.javaAlgorithm = javaAlgorithm;
     }
 
     @Override
-    public void close() {}
-
-    @Override
-    public byte[] sign(byte[] data, String sigAlgName, Key key) {
+    public byte[] sign(byte[] data, Key key) {
         try {
             PrivateKey privateKey = (PrivateKey)key;
-            Signature signature = getSignature(sigAlgName);
+            Signature signature = Signature.getInstance(javaAlgorithm);
             signature.initSign(privateKey);
             signature.update(data);
             return signature.sign();
@@ -36,7 +30,7 @@ public class RsassaTokenSignatureProvider extends AbstractTokenSignatureProvider
     public boolean verify(JWSInput jws, Key verifyKey) {
         try {
             PublicKey publicKey = (PublicKey)verifyKey;
-            Signature verifier = getSignature(jws.getHeader().getAlgorithm().name());
+            Signature verifier = Signature.getInstance(javaAlgorithm);
             verifier.initVerify(publicKey);
             verifier.update(jws.getEncodedSignatureInput().getBytes("UTF-8"));
             return verifier.verify(jws.getSignature());
@@ -44,4 +38,5 @@ public class RsassaTokenSignatureProvider extends AbstractTokenSignatureProvider
             return false;
         }
     }
+
 }

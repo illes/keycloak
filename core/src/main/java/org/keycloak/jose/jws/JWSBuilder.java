@@ -122,7 +122,7 @@ public class JWSBuilder {
             encode(sigAlgName, data, buffer);
             byte[] signature = null;
             try {
-                signature = signatureProvider.sign(buffer.toString().getBytes("UTF-8"), sigAlgName, key);
+                signature = signatureProvider.sign(buffer.toString().getBytes("UTF-8"), key);
             } catch (UnsupportedEncodingException e) {
                 throw new RuntimeException(e);
             }

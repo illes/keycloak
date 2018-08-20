@@ -421,12 +421,6 @@ public class RepresentationToModel {
                 DefaultKeyProviders.createProviders(newRealm);
             }
         }
-
-        // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-        if (newRealm.getComponents(newRealm.getId(), TokenSignatureProvider.class.getName()).isEmpty()) {
-            DefaultTokenSignatureProviders.createProviders(newRealm);
-        }
-
     }
 
     public static void importUserFederationProvidersAndMappers(KeycloakSession session, RealmRepresentation rep, RealmModel newRealm) {

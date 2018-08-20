@@ -11,26 +11,18 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.crypto.JavaAlgorithm;
 import org.keycloak.models.KeycloakSession;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
+public class HMACTokenSignatureProvider implements TokenSignatureProvider {
 
-public class HmacTokenSignatureProvider extends AbstractTokenSignatureProvider {
+    private String javaAlgorithm;
 
-    public HmacTokenSignatureProvider(KeycloakSession session, ComponentModel model) {
-        super(session, model);
-    }
-
-    private Mac getMAC(final String sigAlgName) {
-        try {
-            return Mac.getInstance(JavaAlgorithm.getJavaAlgorithm(sigAlgName));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Unsupported HMAC algorithm: " + e.getMessage(), e);
-        }
+    public HMACTokenSignatureProvider(String javaAlgorithm) {
+        this.javaAlgorithm = javaAlgorithm;
     }
 
     @Override
-    public byte[] sign(byte[] data, String sigAlgName, Key key) {
+    public byte[] sign(byte[] data, Key key) {
         try {
-            Mac mac = getMAC(sigAlgName);
+            Mac mac = Mac.getInstance(javaAlgorithm);
             mac.init(key);
             mac.update(data);
             return mac.doFinal();
@@ -42,7 +34,7 @@ public class HmacTokenSignatureProvider extends AbstractTokenSignatureProvider {
     @Override
     public boolean verify(JWSInput jws, Key verifyKey) {
         try {
-            byte[] signature = sign(jws.getEncodedSignatureInput().getBytes("UTF-8"), jws.getHeader().getAlgorithm().name(), verifyKey);
+            byte[] signature = sign(jws.getEncodedSignatureInput().getBytes("UTF-8"), verifyKey);
             return MessageDigest.isEqual(signature, Base64Url.decode(jws.getEncodedSignature()));
         } catch (Exception e) {
             throw new RuntimeException(e);
