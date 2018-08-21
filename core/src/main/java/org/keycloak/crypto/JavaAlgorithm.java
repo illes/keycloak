@@ -21,9 +21,9 @@ public class JavaAlgorithm {
     public static final String RS256 = "SHA256withRSA";
     public static final String RS384 = "SHA384withRSA";
     public static final String RS512 = "SHA512withRSA";
-    public static final String HS256 = "HS256";
-    public static final String HS384 = "HS384";
-    public static final String HS512 = "HS512";
+    public static final String HS256 = "HMACSHA256";
+    public static final String HS384 = "HMACSHA384";
+    public static final String HS512 = "HMACSHA512";
     public static final String ES256 = "SHA256withECDSA";
     public static final String ES384 = "SHA384withECDSA";
     public static final String ES512 = "SHA512withECDSA";

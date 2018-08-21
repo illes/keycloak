@@ -52,7 +52,7 @@
         </thead>
         <tbody>
         <tr ng-repeat="key in keys | filter:search | filter:{status:'ACTIVE'}">
-            <td>{{key.algorithm.sort().join(', ')}}</td>
+            <td>{{key.algorithms.sort().join(', ')}}</td>
             <td>{{key.type}}</td>
             <td>{{key.kid}}</td>
             <td>{{key.providerPriority}}</td>

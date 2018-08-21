@@ -351,7 +351,7 @@ public class TokenVerifier<T extends JsonWebToken> {
     }
 
     public void verifySignature() throws VerificationException {
-        if (this.signatureProvider != null && this.verify() != null) {
+        if (this.signatureProvider != null) {
             verifySignatureByProvider();
             return;
         }

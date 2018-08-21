@@ -27,6 +27,8 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.common.util.Time;
+import org.keycloak.crypto.KeyUse;
+import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
@@ -34,6 +36,8 @@ import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsProvider;
 import org.keycloak.jose.jws.AlgorithmType;
 import org.keycloak.jose.jws.JWSBuilder;
+import org.keycloak.jose.jws.TokenSignature;
+import org.keycloak.jose.jws.TokenSignatureProvider;
 import org.keycloak.models.*;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.models.utils.SessionTimeoutHelper;
@@ -1102,21 +1106,19 @@ public class AuthenticationManager {
               .checkTokenType(checkTokenType);
             String kid = verifier.getHeader().getKeyId();
             AlgorithmType algorithmType = verifier.getHeader().getAlgorithm().getType();
+            String algorithm = verifier.getHeader().getAlgorithm().name();
 
-            if (AlgorithmType.RSA.equals(algorithmType)) {
-                PublicKey publicKey = session.keys().getRsaPublicKey(realm, kid);
-                if (publicKey == null) {
-                    logger.debugf("Identity cookie signed with unknown kid '%s'", kid);
-                    return null;
-                }
-                verifier.publicKey(publicKey);
-            } else if (AlgorithmType.HMAC.equals(algorithmType)) {
-                SecretKey secretKey = session.keys().getHmacSecretKey(realm, kid);
-                if (secretKey == null) {
-                    logger.debugf("Identity cookie signed with unknown kid '%s'", kid);
-                    return null;
-                }
-                verifier.secretKey(secretKey);
+            KeyWrapper key = session.keys().getKey(realm, kid, KeyUse.SIG, algorithm);
+            if (key == null) {
+                logger.debugf("Identity cookie signed with unknown kid '%s'", kid);
+                return null;
+            }
+
+            if (AlgorithmType.HMAC.equals(algorithmType)) {
+                verifier.secretKey(key.getSecretKey());
+            } else {
+                verifier.verifyKey(key.getVerifyKey());
+                verifier.signatureProvider(session.getProvider(TokenSignatureProvider.class, algorithm));
             }
 
             AccessToken token = verifier.verify().getToken();

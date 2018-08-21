@@ -253,6 +253,12 @@ public class DefaultKeyManager implements KeyManager {
             } catch (RuntimeException e) {
                 providers.add(new FailsafeAesKeyProvider());
             }
+
+            try {
+                getActiveKey(realm, KeyUse.ENC, Algorithm.ES256);
+            } catch (RuntimeException e) {
+                providers.add(new FailsafeEcdsaKeyProvider());
+            }
         }
         return providers;
     }
