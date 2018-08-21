@@ -1,13 +1,5 @@
 package org.keycloak.keys;
 
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
-import java.util.List;
-
 import org.jboss.logging.Logger;
 import org.keycloak.common.util.Base64;
 import org.keycloak.component.ComponentModel;
@@ -17,7 +9,8 @@ import org.keycloak.models.RealmModel;
 import org.keycloak.provider.ConfigurationValidationHelper;
 import org.keycloak.provider.ProviderConfigProperty;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
+import java.security.KeyPair;
+import java.util.List;
 
 public class GeneratedEcdsaKeyProviderFactory extends AbstractEcdsaKeyProviderFactory {
 

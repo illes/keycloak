@@ -12,8 +12,6 @@ import org.keycloak.crypto.KeyUse;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.RealmModel;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
 public abstract class AbstractEcdsaKeyProvider implements KeyProvider {
 
     private final KeyStatus status;

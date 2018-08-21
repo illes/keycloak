@@ -757,8 +757,6 @@ public class RefreshTokenTest extends AbstractKeycloakTest {
                 .post(Entity.form(form));
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
     private void refreshToken(String sigAlgName) throws Exception {
         oauth.doLogin("test-user@localhost", "password");
 

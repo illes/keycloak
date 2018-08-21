@@ -29,8 +29,6 @@ import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.testsuite.admin.ApiUtil;
 import org.keycloak.testsuite.arquillian.TestContext;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
 public class TokenSignatureUtil {
     private static Logger log = Logger.getLogger(TokenSignatureUtil.class);
 

@@ -180,7 +180,6 @@ public class LogoutTest extends AbstractKeycloakTest {
         }
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
     private void backchannelLogoutRequest(String sigAlgName) throws Exception {
         oauth.doLogin("test-user@localhost", "password");
 

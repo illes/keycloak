@@ -221,7 +221,6 @@ public abstract class AbstractOIDCResponseTypeTest extends AbstractTestRealmKeyc
         return ClientManager.realm(adminClient.realm("test")).clientId("test-app");
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
     private void oidcFlow(String sigAlgName) throws Exception {
         EventRepresentation loginEvent = loginUser("abcdef123456");
 

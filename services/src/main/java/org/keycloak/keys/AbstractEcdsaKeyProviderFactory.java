@@ -16,9 +16,6 @@ import org.keycloak.provider.ProviderConfigurationBuilder;
 
 import static org.keycloak.provider.ProviderConfigProperty.LIST_TYPE;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
-@SuppressWarnings("rawtypes")
 public abstract class AbstractEcdsaKeyProviderFactory implements KeyProviderFactory {
 
     protected static final String ECDSA_PRIVATE_KEY_KEY = "ecdsaPrivateKey";

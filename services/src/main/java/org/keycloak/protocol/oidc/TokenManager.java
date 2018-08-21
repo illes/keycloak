@@ -376,7 +376,6 @@ public class TokenManager {
 
     public RefreshToken toRefreshToken(KeycloakSession session, RealmModel realm, String encodedRefreshToken) throws JWSInputException, OAuthErrorException {
         JWSInput jws = new JWSInput(encodedRefreshToken);
-        // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
         TokenSignature ts = TokenSignature.getInstance(session, realm, jws.getHeader().getAlgorithm().name());
         if (!ts.verify(jws)) {
             throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid refresh token");
@@ -388,7 +387,6 @@ public class TokenManager {
         try {
             JWSInput jws = new JWSInput(encodedIDToken);
             IDToken idToken;
-            // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
             TokenSignature ts = TokenSignature.getInstance(session, realm, jws.getHeader().getAlgorithm().name());
             if (!ts.verify(jws)) {
                 throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid IDToken");
@@ -410,7 +408,6 @@ public class TokenManager {
         try {
             JWSInput jws = new JWSInput(encodedIDToken);
             IDToken idToken;
-            // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
             TokenSignature ts = TokenSignature.getInstance(session, realm, jws.getHeader().getAlgorithm().name());
             if (!ts.verify(jws)) {
                 throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid IDToken");
@@ -853,7 +850,6 @@ public class TokenManager {
         }
 
         public AccessTokenResponseBuilder generateCodeHash(String code) {
-            // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
             codeHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), code);
             return this;
         }
@@ -861,7 +857,6 @@ public class TokenManager {
         // Financial API - Part 2: Read and Write API Security Profile
         // http://openid.net/specs/openid-financial-api-part-2.html#authorization-server
         public AccessTokenResponseBuilder generateStateHash(String state) {
-            // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
             stateHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), state);
             return this;
         }
@@ -882,11 +877,9 @@ public class TokenManager {
 
             AccessTokenResponse res = new AccessTokenResponse();
 
-            // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
             TokenSignature ts = TokenSignature.getInstance(session, realm, TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client));
 
             if (accessToken != null) {
-                // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
                 String encodedToken = ts.sign(accessToken);
                 res.setToken(encodedToken);
                 res.setTokenType("bearer");
@@ -897,7 +890,6 @@ public class TokenManager {
             }
 
             if (generateAccessTokenHash) {
-                // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
                 String atHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), res.getToken());
                 idToken.setAccessTokenHash(atHash);
             }
@@ -910,12 +902,10 @@ public class TokenManager {
                 idToken.setStateHash(stateHash);
             }
             if (idToken != null) {
-                // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
                 String encodedToken = ts.sign(idToken);
                 res.setIdToken(encodedToken);
             }
             if (refreshToken != null) {
-                // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
                 String encodedToken = ts.sign(refreshToken);
                 res.setRefreshToken(encodedToken);
                 if (refreshToken.getExpiration() != 0) {

@@ -28,8 +28,6 @@ import org.keycloak.testsuite.admin.ApiUtil;
 import org.keycloak.testsuite.pages.AppPage;
 import org.keycloak.testsuite.pages.LoginPage;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
 public class GeneratedEcdsaKeyProviderTest extends AbstractKeycloakTest {
     private static final String DEFAULT_EC = "P-256";
     private static final String ECDSA_ELLIPTIC_CURVE_KEY = "ecdsaEllipticCurveKey";

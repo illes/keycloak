@@ -147,7 +147,6 @@ public class TokenVerifier<T extends JsonWebToken> {
     private JWSInput jws;
     private T token;
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
     private Key verifyKey = null;
     private JWSSignatureProvider signatureProvider = null;
     public TokenVerifier<T> verifyKey(Key verifyKey) {
@@ -352,7 +351,6 @@ public class TokenVerifier<T extends JsonWebToken> {
     }
 
     public void verifySignature() throws VerificationException {
-        // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
         if (this.signatureProvider != null && this.verify() != null) {
             verifySignatureByProvider();
             return;
@@ -382,7 +380,6 @@ public class TokenVerifier<T extends JsonWebToken> {
         }
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
     private void verifySignatureByProvider() throws VerificationException {
         if (!signatureProvider.verify(jws, verifyKey)) {
             throw new TokenSignatureInvalidException(token, "Invalid token signature");

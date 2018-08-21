@@ -4,8 +4,6 @@ import org.keycloak.provider.Provider;
 import org.keycloak.provider.ProviderFactory;
 import org.keycloak.provider.Spi;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
 public class TokenSignatureSpi implements Spi {
     @Override
     public boolean isInternal() {

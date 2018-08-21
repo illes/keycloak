@@ -13,8 +13,6 @@ import org.keycloak.crypto.KeyType;
 import org.keycloak.crypto.KeyUse;
 import org.keycloak.crypto.KeyWrapper;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
 public class FailsafeEcdsaKeyProvider implements KeyProvider {
 
     private static final Logger logger = Logger.getLogger(FailsafeEcdsaKeyProvider.class);

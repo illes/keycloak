@@ -1029,8 +1029,6 @@ public class AccessTokenTest extends AbstractKeycloakTest {
                 .post(Entity.form(form));
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
     @Test
     public void accessTokenRequest_RealmRS256_ClientRS384_EffectiveRS384() throws Exception {
         try {

@@ -13,8 +13,6 @@ import org.keycloak.component.ComponentModel;
 import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.RealmModel;
 
-// KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
-
 public class GeneratedEcdsaKeyProvider extends AbstractEcdsaKeyProvider {
     private static final Logger logger = Logger.getLogger(GeneratedEcdsaKeyProvider.class);
 

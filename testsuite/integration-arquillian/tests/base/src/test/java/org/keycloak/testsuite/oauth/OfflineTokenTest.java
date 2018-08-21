@@ -753,7 +753,6 @@ public class OfflineTokenTest extends AbstractKeycloakTest {
         }
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
     private void offlineTokenRequest(String sigAlgName) throws Exception {
         oauth.scope(OAuth2Constants.OFFLINE_ACCESS);
         oauth.clientId("offline-client");

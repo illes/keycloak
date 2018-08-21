@@ -76,7 +76,6 @@ public class JWSBuilder {
     }
 
     protected void encode(Algorithm alg, byte[] data, StringBuffer encoding) {
-        // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
         encode(alg.name(), data, encoding);
     }
 
@@ -84,14 +83,12 @@ public class JWSBuilder {
         return contentBytes;
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
     protected void encode(String sigAlgName, byte[] data, StringBuffer encoding) {
         encoding.append(encodeHeader(sigAlgName));
         encoding.append('.');
         encoding.append(Base64Url.encode(data));
     }
 
-    // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI
     protected String encodeHeader(String sigAlgName) {
         StringBuilder builder = new StringBuilder("{");
         builder.append("\"alg\":\"").append(sigAlgName).append("\"");
@@ -115,7 +112,6 @@ public class JWSBuilder {
             return encodeAll(buffer, null);
         }
 
-        // KEYCLOAK-7560 Refactoring Token Signing and Verifying by Token Signature SPI        
         public String sign(JWSSignatureProvider signatureProvider, String sigAlgName, Key key) {
             StringBuffer buffer = new StringBuffer();
             byte[] data = marshalContent();
