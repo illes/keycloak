@@ -64,20 +64,6 @@ public class TokenSignatureUtil {
         return verifier.verify(jws.getSignature());
     }
 
-    public static void registerTokenSignatureProvider(String sigAlgName, Keycloak adminClient, TestContext testContext) {
-        long priority = System.currentTimeMillis();
-
-        ComponentRepresentation rep = createTokenSignatureRep("valid", ES256TokenSignatureProviderFactory.ID);
-        rep.setConfig(new MultivaluedHashMap<>());
-        rep.getConfig().putSingle("priority", Long.toString(priority));
-        rep.getConfig().putSingle("org.keycloak.jose.jws.TokenSignatureProvider.algorithm", sigAlgName);
-
-        Response response = adminClient.realm(TEST_REALM_NAME).components().add(rep);
-        String id = ApiUtil.getCreatedId(response);
-        testContext.getOrCreateCleanup(TEST_REALM_NAME).addComponentId(id);
-        response.close();
-    }
-
     public static void registerKeyProvider(String ecNistRep, Keycloak adminClient, TestContext testContext) {
         long priority = System.currentTimeMillis();
 

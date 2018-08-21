@@ -1060,7 +1060,6 @@ public class AccessTokenTest extends AbstractKeycloakTest {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
             TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.ES256);
             TokenSignatureUtil.registerKeyProvider("P-256", adminClient, testContext);
-            TokenSignatureUtil.registerTokenSignatureProvider(Algorithm.ES256, adminClient, testContext);
             tokenRequestSignatureVerifyOnly(Algorithm.ES256);
         } finally {
             TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS256);
@@ -1073,7 +1072,6 @@ public class AccessTokenTest extends AbstractKeycloakTest {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.ES384);
             TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.ES384);
             TokenSignatureUtil.registerKeyProvider("P-384", adminClient, testContext);
-            TokenSignatureUtil.registerTokenSignatureProvider(Algorithm.ES384, adminClient, testContext);
             tokenRequestSignatureVerifyOnly(Algorithm.ES384);
         } finally {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
@@ -1087,7 +1085,6 @@ public class AccessTokenTest extends AbstractKeycloakTest {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
             TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.ES512);
             TokenSignatureUtil.registerKeyProvider("P-521", adminClient, testContext);
-            TokenSignatureUtil.registerTokenSignatureProvider(Algorithm.ES512, adminClient, testContext);
             tokenRequestSignatureVerifyOnly(Algorithm.ES512);
         } finally {
             TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS256);
