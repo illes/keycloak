@@ -14,7 +14,7 @@ public class HS512TokenSignatureProviderFactory implements TokenSignatureProvide
 
     @Override
     public TokenSignatureProvider create(KeycloakSession session) {
-        return new HMACTokenSignatureProvider(JavaAlgorithm.HS512);
+        return new HMACTokenSignatureProvider(session, Algorithm.HS512.name(), JavaAlgorithm.HS512);
     }
 
 }

@@ -14,7 +14,7 @@ public class HS256TokenSignatureProviderFactory implements TokenSignatureProvide
 
     @Override
     public TokenSignatureProvider create(KeycloakSession session) {
-        return new HMACTokenSignatureProvider(JavaAlgorithm.HS256);
+        return new HMACTokenSignatureProvider(session, Algorithm.HS256.name(), JavaAlgorithm.HS256);
     }
 
 }

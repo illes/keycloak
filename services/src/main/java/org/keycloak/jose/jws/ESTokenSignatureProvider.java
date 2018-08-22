@@ -2,13 +2,13 @@ package org.keycloak.jose.jws;
 
 import org.keycloak.models.KeycloakSession;
 
-public class RSTokenSignatureProvider implements TokenSignatureProvider {
+public class ESTokenSignatureProvider implements TokenSignatureProvider {
 
     private final KeycloakSession session;
     private final String algorithm;
     private final String javaAlgorithm;
 
-    public RSTokenSignatureProvider(KeycloakSession session, String algorithm, String javaAlgorithm) {
+    public ESTokenSignatureProvider(KeycloakSession session, String algorithm, String javaAlgorithm) {
         this.session = session;
         this.algorithm = algorithm;
         this.javaAlgorithm = javaAlgorithm;

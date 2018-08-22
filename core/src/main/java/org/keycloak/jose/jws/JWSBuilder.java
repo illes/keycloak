@@ -112,14 +112,16 @@ public class JWSBuilder {
             return encodeAll(buffer, null);
         }
 
-        public String sign(JWSSignatureProvider signatureProvider, String sigAlgName, Key key) {
+        public String sign(SignatureContext signer) {
+            kid = signer.getKid();
+
             StringBuffer buffer = new StringBuffer();
             byte[] data = marshalContent();
-            encode(sigAlgName, data, buffer);
+            encode(signer.getAlgorithm(), data, buffer);
             byte[] signature = null;
             try {
-                signature = signatureProvider.sign(buffer.toString().getBytes("UTF-8"), key);
-            } catch (UnsupportedEncodingException e) {
+                signature = signer.sign(buffer.toString().getBytes("UTF-8"));
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
             return encodeAll(buffer, signature);

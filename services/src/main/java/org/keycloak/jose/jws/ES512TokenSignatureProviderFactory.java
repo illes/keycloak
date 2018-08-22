@@ -14,7 +14,7 @@ public class ES512TokenSignatureProviderFactory implements TokenSignatureProvide
 
     @Override
     public TokenSignatureProvider create(KeycloakSession session) {
-        return new ECDSATokenSignatureProvider(JavaAlgorithm.ES512);
+        return new ESTokenSignatureProvider(session, Algorithm.ES512.name(), JavaAlgorithm.ES512);
     }
 
 }

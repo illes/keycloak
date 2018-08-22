@@ -14,7 +14,7 @@ public class HS384TokenSignatureProviderFactory implements TokenSignatureProvide
 
     @Override
     public TokenSignatureProvider create(KeycloakSession session) {
-        return new HMACTokenSignatureProvider(JavaAlgorithm.HS384);
+        return new HMACTokenSignatureProvider(session, Algorithm.RS384.name(), JavaAlgorithm.HS384);
     }
 
 }

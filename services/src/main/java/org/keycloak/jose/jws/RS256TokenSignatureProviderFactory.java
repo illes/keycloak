@@ -14,7 +14,7 @@ public class RS256TokenSignatureProviderFactory implements TokenSignatureProvide
 
     @Override
     public TokenSignatureProvider create(KeycloakSession session) {
-        return new RSTokenSignatureProvider(JavaAlgorithm.RS256);
+        return new RSTokenSignatureProvider(session, Algorithm.RS256.name(), JavaAlgorithm.RS256);
     }
 
 }

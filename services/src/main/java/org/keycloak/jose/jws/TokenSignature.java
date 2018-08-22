@@ -2,14 +2,11 @@ package org.keycloak.jose.jws;
 
 import org.jboss.logging.Logger;
 import org.keycloak.crypto.KeyUse;
-import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
 import org.keycloak.representations.JsonWebToken;
 import org.keycloak.representations.RefreshToken;
 import org.keycloak.util.TokenUtil;
-
-import java.security.Key;
 
 public class TokenSignature {
 
@@ -30,15 +27,18 @@ public class TokenSignature {
     }
 
     public String sign(JsonWebToken jwt) {
-        TokenSignatureProvider tokenSignatureProvider = session.getProvider(TokenSignatureProvider.class, sigAlgName);
-        if (tokenSignatureProvider == null) return null;
+        SignatureContext signer;
+        try {
+            TokenSignatureProvider tokenSignatureProvider = session.getProvider(TokenSignatureProvider.class, sigAlgName);
+            if (tokenSignatureProvider == null) {
+                return null;
+            }
+            signer = tokenSignatureProvider.signer();
+        } catch (SignatureException e) {
+            throw new RuntimeException(e);
+        }
 
-        KeyWrapper keyWrapper = session.keys().getActiveKey(realm, KeyUse.SIG, sigAlgName);
-        if (keyWrapper == null) return null;
-
-        String keyId = keyWrapper.getKid();
-        Key signKey = keyWrapper.getSignKey();
-        String encodedToken = new JWSBuilder().type("JWT").kid(keyId).jsonContent(jwt).sign((JWSSignatureProvider)tokenSignatureProvider, sigAlgName, signKey);
+        String encodedToken = new JWSBuilder().type("JWT").jsonContent(jwt).sign(signer);
         return encodedToken;
     }
 
@@ -46,17 +46,18 @@ public class TokenSignature {
         TokenSignatureProvider tokenSignatureProvider = session.getProvider(TokenSignatureProvider.class, sigAlgName);
         if (tokenSignatureProvider == null) return false;
 
-        KeyWrapper keyWrapper = null;
+        String kid = jws.getHeader().getKeyId();
         // Backwards compatibility. Old offline tokens didn't have KID in the header
-        if (jws.getHeader().getKeyId() == null && isOfflineToken(jws)) {
+        if (kid == null && isOfflineToken(jws)) {
             logger.debugf("KID is null in offline token. Using the realm active key to verify token signature.");
-            keyWrapper = session.keys().getActiveKey(realm, KeyUse.SIG, sigAlgName);
-        } else {
-            keyWrapper = session.keys().getKey(realm, jws.getHeader().getKeyId(), KeyUse.SIG, sigAlgName);
+            kid = session.keys().getActiveKey(realm, KeyUse.SIG, sigAlgName).getKid();
         }
-        if (keyWrapper == null) return false;
 
-        return tokenSignatureProvider.verify(jws, keyWrapper.getVerifyKey());
+        try {
+            return tokenSignatureProvider.verifier(kid).verify(jws.getEncodedSignatureInput().getBytes("UTF-8"), jws.getSignature());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private boolean isOfflineToken(JWSInput jws) throws JWSInputException {

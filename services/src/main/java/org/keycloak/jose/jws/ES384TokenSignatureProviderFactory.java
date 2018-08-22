@@ -14,7 +14,7 @@ public class ES384TokenSignatureProviderFactory implements TokenSignatureProvide
 
     @Override
     public TokenSignatureProvider create(KeycloakSession session) {
-        return new ECDSATokenSignatureProvider(JavaAlgorithm.ES384);
+        return new ESTokenSignatureProvider(session, Algorithm.ES256.name(), JavaAlgorithm.ES384);
     }
 
 }

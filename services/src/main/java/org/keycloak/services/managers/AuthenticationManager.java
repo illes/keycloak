@@ -27,17 +27,15 @@ import org.keycloak.common.ClientConnection;
 import org.keycloak.common.VerificationException;
 import org.keycloak.common.util.Base64Url;
 import org.keycloak.common.util.Time;
-import org.keycloak.crypto.KeyUse;
-import org.keycloak.crypto.KeyWrapper;
 import org.keycloak.events.Details;
 import org.keycloak.events.Errors;
 import org.keycloak.events.EventBuilder;
 import org.keycloak.events.EventType;
 import org.keycloak.forms.login.LoginFormsProvider;
-import org.keycloak.jose.jws.AlgorithmType;
 import org.keycloak.jose.jws.JWSBuilder;
-import org.keycloak.jose.jws.TokenSignature;
+import org.keycloak.jose.jws.SignatureException;
 import org.keycloak.jose.jws.TokenSignatureProvider;
+import org.keycloak.jose.jws.SignatureVerifierContext;
 import org.keycloak.models.*;
 import org.keycloak.models.utils.KeycloakModelUtils;
 import org.keycloak.models.utils.SessionTimeoutHelper;
@@ -66,10 +64,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import java.net.URI;
-import java.security.PublicKey;
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.AbstractMap.SimpleEntry;
 
 /**
  * Stateless object that manages authentication
@@ -1105,20 +1101,13 @@ public class AuthenticationManager {
               .checkActive(checkActive)
               .checkTokenType(checkTokenType);
             String kid = verifier.getHeader().getKeyId();
-            AlgorithmType algorithmType = verifier.getHeader().getAlgorithm().getType();
             String algorithm = verifier.getHeader().getAlgorithm().name();
 
-            KeyWrapper key = session.keys().getKey(realm, kid, KeyUse.SIG, algorithm);
-            if (key == null) {
-                logger.debugf("Identity cookie signed with unknown kid '%s'", kid);
-                return null;
-            }
-
-            if (AlgorithmType.HMAC.equals(algorithmType)) {
-                verifier.secretKey(key.getSecretKey());
-            } else {
-                verifier.verifyKey(key.getVerifyKey());
-                verifier.signatureProvider(session.getProvider(TokenSignatureProvider.class, algorithm));
+            try {
+                SignatureVerifierContext signatureVerifier = session.getProvider(TokenSignatureProvider.class, algorithm).verifier(kid);
+                verifier.signatureProvider(signatureVerifier);
+            } catch (SignatureException e) {
+                logger.debug("Failed to verify signature", e);
             }
 
             AccessToken token = verifier.verify().getToken();

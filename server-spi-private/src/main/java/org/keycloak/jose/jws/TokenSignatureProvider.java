@@ -2,13 +2,11 @@ package org.keycloak.jose.jws;
 
 import org.keycloak.provider.Provider;
 
-import java.security.Key;
+public interface TokenSignatureProvider extends Provider {
 
-public interface TokenSignatureProvider extends Provider, JWSSignatureProvider {
+    SignatureContext signer() throws SignatureException;
 
-    byte[] sign(byte[] data, Key key);
-
-    boolean verify(JWSInput input, Key key);
+    SignatureVerifierContext verifier(String kid) throws SignatureException;
 
     @Override
     default void close() {

@@ -1,44 +1,27 @@
 package org.keycloak.jose.jws;
 
-import java.security.Key;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-
-import org.keycloak.common.util.Base64Url;
-import org.keycloak.component.ComponentModel;
-import org.keycloak.crypto.JavaAlgorithm;
 import org.keycloak.models.KeycloakSession;
 
 public class HMACTokenSignatureProvider implements TokenSignatureProvider {
 
-    private String javaAlgorithm;
+    private final KeycloakSession session;
+    private final String algorithm;
+    private final String javaAlgorithm;
 
-    public HMACTokenSignatureProvider(String javaAlgorithm) {
+    public HMACTokenSignatureProvider(KeycloakSession session, String algorithm, String javaAlgorithm) {
+        this.session = session;
+        this.algorithm = algorithm;
         this.javaAlgorithm = javaAlgorithm;
     }
 
     @Override
-    public byte[] sign(byte[] data, Key key) {
-        try {
-            Mac mac = Mac.getInstance(javaAlgorithm);
-            mac.init(key);
-            mac.update(data);
-            return mac.doFinal();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public SignatureContext signer() throws SignatureException {
+        return new SecretSignatureContext(session, algorithm, javaAlgorithm);
     }
 
     @Override
-    public boolean verify(JWSInput jws, Key verifyKey) {
-        try {
-            byte[] signature = sign(jws.getEncodedSignatureInput().getBytes("UTF-8"), verifyKey);
-            return MessageDigest.isEqual(signature, Base64Url.decode(jws.getEncodedSignature()));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    public SignatureVerifierContext verifier(String kid) throws SignatureException {
+        return new SecretSignatureVerifierContext(signer());
     }
 
 }

@@ -24,7 +24,7 @@ import org.keycloak.jose.jws.AlgorithmType;
 import org.keycloak.jose.jws.JWSHeader;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.JWSInputException;
-import org.keycloak.jose.jws.JWSSignatureProvider;
+import org.keycloak.jose.jws.SignatureVerifierContext;
 import org.keycloak.jose.jws.crypto.HMACProvider;
 import org.keycloak.jose.jws.crypto.RSAProvider;
 import org.keycloak.representations.JsonWebToken;
@@ -148,13 +148,13 @@ public class TokenVerifier<T extends JsonWebToken> {
     private T token;
 
     private Key verifyKey = null;
-    private JWSSignatureProvider signatureProvider = null;
+    private SignatureVerifierContext verifier = null;
     public TokenVerifier<T> verifyKey(Key verifyKey) {
         this.verifyKey = verifyKey;
         return this;
     }
-    public TokenVerifier<T> signatureProvider(JWSSignatureProvider signatureProvider) {
-        this.signatureProvider = signatureProvider;
+    public TokenVerifier<T> signatureProvider(SignatureVerifierContext verifier) {
+        this.verifier = verifier;
         return this;
     }
 
@@ -351,8 +351,10 @@ public class TokenVerifier<T extends JsonWebToken> {
     }
 
     public void verifySignature() throws VerificationException {
-        if (this.signatureProvider != null) {
-            verifySignatureByProvider();
+        if (this.verifier != null) {
+            if (!verifySignatureByProvider()) {
+                throw new TokenSignatureInvalidException(token, "Invalid token signature");
+            }
             return;
         }
 
@@ -380,9 +382,11 @@ public class TokenVerifier<T extends JsonWebToken> {
         }
     }
 
-    private void verifySignatureByProvider() throws VerificationException {
-        if (!signatureProvider.verify(jws, verifyKey)) {
-            throw new TokenSignatureInvalidException(token, "Invalid token signature");
+    private boolean verifySignatureByProvider() throws VerificationException {
+        try {
+            return verifier.verify(jws.getEncodedSignatureInput().getBytes("UTF-8"), jws.getSignature());
+        } catch (Exception e) {
+            throw new VerificationException(e);
         }
     }
 
