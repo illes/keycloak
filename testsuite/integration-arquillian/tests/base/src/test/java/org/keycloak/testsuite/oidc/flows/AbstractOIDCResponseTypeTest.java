@@ -221,7 +221,7 @@ public abstract class AbstractOIDCResponseTypeTest extends AbstractTestRealmKeyc
         return ClientManager.realm(adminClient.realm("test")).clientId("test-app");
     }
 
-    private void oidcFlow(String sigAlgName) throws Exception {
+    private void oidcFlow(String expectedAccessAlg, String expectedIdTokenAlg) throws Exception {
         EventRepresentation loginEvent = loginUser("abcdef123456");
 
         OAuthClient.AuthorizationEndpointResponse authzResponse = new OAuthClient.AuthorizationEndpointResponse(oauth, isFragment());
@@ -232,13 +232,13 @@ public abstract class AbstractOIDCResponseTypeTest extends AbstractTestRealmKeyc
         String accessToken = authzResponse.getAccessToken();
         if (idToken != null) {
             header = new JWSInput(idToken).getHeader();
-            assertEquals(sigAlgName, header.getAlgorithm().name());
+            assertEquals(expectedIdTokenAlg, header.getAlgorithm().name());
             assertEquals("JWT", header.getType());
             assertNull(header.getContentType());
         }
         if (accessToken != null) {
             header = new JWSInput(accessToken).getHeader();
-            assertEquals(sigAlgName, header.getAlgorithm().name());
+            assertEquals(expectedAccessAlg, header.getAlgorithm().name());
             assertEquals("JWT", header.getType());
             assertNull(header.getContentType());
         }
@@ -250,16 +250,17 @@ public abstract class AbstractOIDCResponseTypeTest extends AbstractTestRealmKeyc
             Assert.assertEquals(authzResponse.getSessionState(), idt.getSessionState());
         }
     }
+
     @Test
     public void oidcFlow_RealmRS256_ClientRS384_EffectiveRS384() throws Exception {
         try {
             setSignatureAlgorithm("RS384");
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, "RS256");
-            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS384");
-            oidcFlow("RS384");
+            TokenSignatureUtil.changeClientIdTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS384");
+            oidcFlow("RS256", "RS384");
         } finally {
             setSignatureAlgorithm("RS256");
-            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS256");
+            TokenSignatureUtil.changeClientIdTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS256");
         }
     }
     private String sigAlgName = "RS256";

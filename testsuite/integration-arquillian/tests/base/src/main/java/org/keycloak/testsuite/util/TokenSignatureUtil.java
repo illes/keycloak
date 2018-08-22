@@ -55,6 +55,13 @@ public class TokenSignatureUtil {
         clientResource.update(clientRep);
     }
 
+    public static void changeClientIdTokenSignatureProvider(ClientResource clientResource, String toSigAlgName) {
+        ClientRepresentation clientRep = clientResource.toRepresentation();
+        log.tracef("change client %s access token signature algorithm from %s to %s", clientRep.getClientId(), clientRep.getAttributes().get(OIDCConfigAttributes.ID_TOKEN_SIGNED_RESPONSE_ALG), toSigAlgName);
+        clientRep.getAttributes().put(OIDCConfigAttributes.ID_TOKEN_SIGNED_RESPONSE_ALG, toSigAlgName);
+        clientResource.update(clientRep);
+    }
+
     public static boolean verifySignature(String sigAlgName, String token, Keycloak adminClient) throws Exception {
         PublicKey publicKey = getRealmPublicKey(TEST_REALM_NAME, sigAlgName, adminClient);
         JWSInput jws = new JWSInput(token);

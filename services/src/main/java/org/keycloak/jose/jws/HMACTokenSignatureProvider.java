@@ -21,7 +21,7 @@ public class HMACTokenSignatureProvider implements TokenSignatureProvider {
 
     @Override
     public SignatureVerifierContext verifier(String kid) throws SignatureException {
-        return new SecretSignatureVerifierContext(signer());
+        return new SecretSignatureVerifierContext(session, kid, algorithm, javaAlgorithm);
     }
 
 }

@@ -180,7 +180,7 @@ public class LogoutTest extends AbstractKeycloakTest {
         }
     }
 
-    private void backchannelLogoutRequest(String sigAlgName) throws Exception {
+    private void backchannelLogoutRequest(String expectedRefreshAlg, String expectedAccessAlg, String expectedIdTokenAlg) throws Exception {
         oauth.doLogin("test-user@localhost", "password");
 
         String code = oauth.getCurrentQuery().get(OAuth2Constants.CODE);
@@ -190,17 +190,17 @@ public class LogoutTest extends AbstractKeycloakTest {
         String idTokenString = tokenResponse.getIdToken();
 
         JWSHeader header = new JWSInput(tokenResponse.getAccessToken()).getHeader();
-        assertEquals(sigAlgName, header.getAlgorithm().name());
+        assertEquals(expectedAccessAlg, header.getAlgorithm().name());
         assertEquals("JWT", header.getType());
         assertNull(header.getContentType());
 
         header = new JWSInput(tokenResponse.getIdToken()).getHeader();
-        assertEquals(sigAlgName, header.getAlgorithm().name());
+        assertEquals(expectedIdTokenAlg, header.getAlgorithm().name());
         assertEquals("JWT", header.getType());
         assertNull(header.getContentType());
 
         header = new JWSInput(tokenResponse.getRefreshToken()).getHeader();
-        assertEquals(sigAlgName, header.getAlgorithm().name());
+        assertEquals(expectedRefreshAlg, header.getAlgorithm().name());
         assertEquals("JWT", header.getType());
         assertNull(header.getContentType());
 
@@ -215,12 +215,13 @@ public class LogoutTest extends AbstractKeycloakTest {
             assertThat(response.getFirstHeader(HttpHeaders.LOCATION).getValue(), is(AppPage.baseUrl));
         }
     }
+
     @Test
-    public void backchannelLogoutRequest_RealmRS384_ClientRS512_EffectiveRS512() throws Exception {
+    public void backchannelLogoutRequest_RealmRS384_ClientRS512() throws Exception {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, "RS384");
             TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS512");
-            backchannelLogoutRequest("RS512");
+            backchannelLogoutRequest("RS384", "RS512", "RS384");
         } finally {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, "RS256");
             TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS256");

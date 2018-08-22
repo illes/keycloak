@@ -1034,7 +1034,7 @@ public class AccessTokenTest extends AbstractKeycloakTest {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
             TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS384);
-            tokenRequest(Algorithm.RS384);
+            tokenRequest(Algorithm.RS256, Algorithm.RS384, Algorithm.RS256);
         } finally {
             TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS256);
         }
@@ -1045,7 +1045,7 @@ public class AccessTokenTest extends AbstractKeycloakTest {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS512);
             TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS512);
-            tokenRequest(Algorithm.RS512);
+            tokenRequest(Algorithm.RS512, Algorithm.RS512, Algorithm.RS512);
         } finally {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
             TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS256);
@@ -1089,7 +1089,7 @@ public class AccessTokenTest extends AbstractKeycloakTest {
         }
     }
 
-    private void tokenRequest(String sigAlgName) throws Exception {
+    private void tokenRequest(String expectedRefreshAlg, String expectedAccessAlg, String expectedIdTokenAlg) throws Exception {
         oauth.doLogin("test-user@localhost", "password");
 
         EventRepresentation loginEvent = events.expectLogin().assertEvent();
@@ -1105,17 +1105,17 @@ public class AccessTokenTest extends AbstractKeycloakTest {
         assertEquals("bearer", response.getTokenType());
 
         JWSHeader header = new JWSInput(response.getAccessToken()).getHeader();
-        assertEquals(sigAlgName, header.getAlgorithm().name());
+        assertEquals(expectedAccessAlg, header.getAlgorithm().name());
         assertEquals("JWT", header.getType());
         assertNull(header.getContentType());
 
         header = new JWSInput(response.getIdToken()).getHeader();
-        assertEquals(sigAlgName, header.getAlgorithm().name());
+        assertEquals(expectedIdTokenAlg, header.getAlgorithm().name());
         assertEquals("JWT", header.getType());
         assertNull(header.getContentType());
 
         header = new JWSInput(response.getRefreshToken()).getHeader();
-        assertEquals(sigAlgName, header.getAlgorithm().name());
+        assertEquals(expectedRefreshAlg, header.getAlgorithm().name());
         assertEquals("JWT", header.getType());
         assertNull(header.getContentType());
 
