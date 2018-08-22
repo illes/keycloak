@@ -1,6 +1,7 @@
 package org.keycloak.jose.jws;
 
 import org.jboss.logging.Logger;
+import org.keycloak.common.VerificationException;
 import org.keycloak.crypto.KeyUse;
 import org.keycloak.models.KeycloakSession;
 import org.keycloak.models.RealmModel;
@@ -47,7 +48,7 @@ public class TokenSignature {
         try {
             return tokenSignatureProvider.verifier(kid).verify(jws.getEncodedSignatureInput().getBytes("UTF-8"), jws.getSignature());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return false;
         }
     }
 
