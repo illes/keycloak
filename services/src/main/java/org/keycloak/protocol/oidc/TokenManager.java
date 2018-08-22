@@ -376,8 +376,7 @@ public class TokenManager {
 
     public RefreshToken toRefreshToken(KeycloakSession session, RealmModel realm, String encodedRefreshToken) throws JWSInputException, OAuthErrorException {
         JWSInput jws = new JWSInput(encodedRefreshToken);
-        TokenSignature ts = TokenSignature.getInstance(session, realm, jws.getHeader().getAlgorithm().name());
-        if (!ts.verify(jws)) {
+        if (!TokenSignature.verify(session, jws)) {
             throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid refresh token");
         }
         return jws.readJsonContent(RefreshToken.class);
@@ -387,8 +386,7 @@ public class TokenManager {
         try {
             JWSInput jws = new JWSInput(encodedIDToken);
             IDToken idToken;
-            TokenSignature ts = TokenSignature.getInstance(session, realm, jws.getHeader().getAlgorithm().name());
-            if (!ts.verify(jws)) {
+            if (!TokenSignature.verify(session, jws)) {
                 throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid IDToken");
             }
             idToken = jws.readJsonContent(IDToken.class);
@@ -408,8 +406,7 @@ public class TokenManager {
         try {
             JWSInput jws = new JWSInput(encodedIDToken);
             IDToken idToken;
-            TokenSignature ts = TokenSignature.getInstance(session, realm, jws.getHeader().getAlgorithm().name());
-            if (!ts.verify(jws)) {
+            if (!TokenSignature.verify(session, jws)) {
                 throw new OAuthErrorException(OAuthErrorException.INVALID_GRANT, "Invalid IDToken");
             }
             idToken = jws.readJsonContent(IDToken.class);
@@ -850,14 +847,14 @@ public class TokenManager {
         }
 
         public AccessTokenResponseBuilder generateCodeHash(String code) {
-            codeHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), code);
+            codeHash = HashProvider.oidcHash(TokenSignatureUtil.getIdTokenSignatureAlgorithm(realm, client), code);
             return this;
         }
 
         // Financial API - Part 2: Read and Write API Security Profile
         // http://openid.net/specs/openid-financial-api-part-2.html#authorization-server
         public AccessTokenResponseBuilder generateStateHash(String state) {
-            stateHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), state);
+            stateHash = HashProvider.oidcHash(TokenSignatureUtil.getIdTokenSignatureAlgorithm(realm, client), state);
             return this;
         }
 
@@ -877,10 +874,12 @@ public class TokenManager {
 
             AccessTokenResponse res = new AccessTokenResponse();
 
-            TokenSignature ts = TokenSignature.getInstance(session, realm, TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client));
+            String refreshTokenSignatureAlgorithm = TokenSignatureUtil.getRefreshTokenSignatureAlgorithm(realm, client);
+            String accessTokenSignatureAlgorithm = TokenSignatureUtil.getAccessTokenSignatureAlgorithm(realm, client);
+            String idTokenSignatureAlgorithm = TokenSignatureUtil.getIdTokenSignatureAlgorithm(realm, client);
 
             if (accessToken != null) {
-                String encodedToken = ts.sign(accessToken);
+                String encodedToken = TokenSignature.sign(session, accessTokenSignatureAlgorithm, accessToken);
                 res.setToken(encodedToken);
                 res.setTokenType("bearer");
                 res.setSessionState(accessToken.getSessionState());
@@ -890,7 +889,7 @@ public class TokenManager {
             }
 
             if (generateAccessTokenHash) {
-                String atHash = HashProvider.oidcHash(TokenSignatureUtil.getTokenSignatureAlgorithm(realm, client), res.getToken());
+                String atHash = HashProvider.oidcHash(idTokenSignatureAlgorithm, res.getToken());
                 idToken.setAccessTokenHash(atHash);
             }
             if (codeHash != null) {
@@ -902,11 +901,11 @@ public class TokenManager {
                 idToken.setStateHash(stateHash);
             }
             if (idToken != null) {
-                String encodedToken = ts.sign(idToken);
+                String encodedToken = TokenSignature.sign(session, idTokenSignatureAlgorithm, idToken);
                 res.setIdToken(encodedToken);
             }
             if (refreshToken != null) {
-                String encodedToken = ts.sign(refreshToken);
+                String encodedToken = TokenSignature.sign(session, refreshTokenSignatureAlgorithm, refreshToken);
                 res.setRefreshToken(encodedToken);
                 if (refreshToken.getExpiration() != 0) {
                     res.setRefreshExpiresIn(refreshToken.getExpiration() - Time.currentTime());

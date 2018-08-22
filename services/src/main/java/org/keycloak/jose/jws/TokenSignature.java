@@ -12,21 +12,10 @@ public class TokenSignature {
 
     private static final Logger logger = Logger.getLogger(TokenSignature.class);
 
-    KeycloakSession session;
-    RealmModel realm;
-    String sigAlgName;
-
-    public static TokenSignature getInstance(KeycloakSession session, RealmModel realm, String sigAlgName) {
-        return new TokenSignature(session, realm, sigAlgName);
+    private TokenSignature() {
     }
 
-    public TokenSignature(KeycloakSession session, RealmModel realm, String sigAlgName) {
-        this.session = session;
-        this.realm = realm;
-        this.sigAlgName = sigAlgName;
-    }
-
-    public String sign(JsonWebToken jwt) {
+    public static String sign(KeycloakSession session, String sigAlgName, JsonWebToken jwt) {
         SignatureContext signer;
         try {
             TokenSignatureProvider tokenSignatureProvider = session.getProvider(TokenSignatureProvider.class, sigAlgName);
@@ -42,7 +31,9 @@ public class TokenSignature {
         return encodedToken;
     }
 
-    public boolean verify(JWSInput jws) throws JWSInputException {
+    public static boolean verify(KeycloakSession session, JWSInput jws) throws JWSInputException {
+        String sigAlgName = jws.getHeader().getAlgorithm().name();
+
         TokenSignatureProvider tokenSignatureProvider = session.getProvider(TokenSignatureProvider.class, sigAlgName);
         if (tokenSignatureProvider == null) return false;
 
@@ -50,7 +41,7 @@ public class TokenSignature {
         // Backwards compatibility. Old offline tokens didn't have KID in the header
         if (kid == null && isOfflineToken(jws)) {
             logger.debugf("KID is null in offline token. Using the realm active key to verify token signature.");
-            kid = session.keys().getActiveKey(realm, KeyUse.SIG, sigAlgName).getKid();
+            kid = session.keys().getActiveKey(session.getContext().getRealm(), KeyUse.SIG, sigAlgName).getKid();
         }
 
         try {
@@ -60,7 +51,7 @@ public class TokenSignature {
         }
     }
 
-    private boolean isOfflineToken(JWSInput jws) throws JWSInputException {
+    private static boolean isOfflineToken(JWSInput jws) throws JWSInputException {
         RefreshToken token = TokenUtil.getRefreshToken(jws.getContent());
         return token.getType().equals(TokenUtil.TOKEN_TYPE_OFFLINE);
     }
