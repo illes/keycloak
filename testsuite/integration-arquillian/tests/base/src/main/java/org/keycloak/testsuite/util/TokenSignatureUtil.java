@@ -16,12 +16,14 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.ClientResource;
 import org.keycloak.common.util.Base64;
 import org.keycloak.common.util.MultivaluedHashMap;
+import org.keycloak.crypto.JavaAlgorithm;
 import org.keycloak.jose.jws.ES256TokenSignatureProviderFactory;
 import org.keycloak.jose.jws.JWSInput;
 import org.keycloak.jose.jws.TokenSignatureProvider;
 import org.keycloak.keys.GeneratedEcdsaKeyProviderFactory;
 import org.keycloak.keys.KeyProvider;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
+import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.ComponentRepresentation;
 import org.keycloak.representations.idm.KeysMetadataRepresentation;
@@ -41,15 +43,15 @@ public class TokenSignatureUtil {
         RealmRepresentation rep = adminClient.realm(TEST_REALM_NAME).toRepresentation();
         Map<String, String> attributes = rep.getAttributes();
         log.tracef("change realm test signature algorithm from %s to %s", attributes.get(COMPONENT_SIGNATURE_ALGORITHM_KEY), toSigAlgName);
-        attributes.put(COMPONENT_SIGNATURE_ALGORITHM_KEY, toSigAlgName);
+        rep.setDefaultSignatureAlgorithm(toSigAlgName);
         rep.setAttributes(attributes);
         adminClient.realm(TEST_REALM_NAME).update(rep);
     }
 
-    public static void changeClientTokenSignatureProvider(ClientResource clientResource, Keycloak adminClient, String toSigAlgName) {
+    public static void changeClientAccessTokenSignatureProvider(ClientResource clientResource, String toSigAlgName) {
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        log.tracef("change client %s signature algorithm from %s to %s", clientRep.getClientId(), OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).getIdTokenSignedResponseAlg(), toSigAlgName);
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setIdTokenSignedResponseAlg(toSigAlgName);
+        log.tracef("change client %s access token signature algorithm from %s to %s", clientRep.getClientId(), clientRep.getAttributes().get(OIDCConfigAttributes.ACCESS_TOKEN_SIGNED_RESPONSE_ALG), toSigAlgName);
+        clientRep.getAttributes().put(OIDCConfigAttributes.ACCESS_TOKEN_SIGNED_RESPONSE_ALG, toSigAlgName);
         clientResource.update(clientRep);
     }
 
@@ -110,7 +112,7 @@ public class TokenSignatureUtil {
                 }
                 KeyFactory kf = null;
                 try {
-                    kf = KeyFactory.getInstance("EC");
+                    kf = KeyFactory.getInstance(rep.getType());
                 } catch (NoSuchAlgorithmException e) {
                     e.printStackTrace();
                 }
@@ -124,23 +126,10 @@ public class TokenSignatureUtil {
         return publicKey;
     }
 
-    private static String getJavaAlgorithm(String sigAlgName) {
-        switch (sigAlgName) {
-        case "ES256":
-            return "SHA256withECDSA";
-        case "ES384":
-            return "SHA384withECDSA";
-        case "ES512":
-            return "SHA512withECDSA";
-        default:
-            throw new IllegalArgumentException("Not an ECDSA Algorithm");
-        }
-    }
-
     private static Signature getSignature(String sigAlgName) {
         try {
             // use Bouncy Castle for signature verification intentionally
-            Signature signature = Signature.getInstance(getJavaAlgorithm(sigAlgName), "BC");
+            Signature signature = Signature.getInstance(JavaAlgorithm.getJavaAlgorithm(sigAlgName), "BC");
             return signature;
         } catch (Exception e) {
             throw new RuntimeException(e);

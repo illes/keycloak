@@ -17,6 +17,7 @@
 
 package org.keycloak.testsuite.oidc;
 
+import com.google.common.collect.ImmutableMap;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.graphene.page.Page;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
@@ -36,6 +37,7 @@ import org.keycloak.models.Constants;
 import org.keycloak.models.RealmModel;
 import org.keycloak.models.UserSessionModel;
 import org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper;
+import org.keycloak.protocol.oidc.OIDCConfigAttributes;
 import org.keycloak.protocol.oidc.OIDCLoginProtocol;
 import org.keycloak.representations.IDToken;
 import org.keycloak.representations.idm.CertificateRepresentation;
@@ -43,9 +45,9 @@ import org.keycloak.representations.idm.ClientRepresentation;
 import org.keycloak.representations.idm.EventRepresentation;
 import org.keycloak.representations.idm.RealmRepresentation;
 import org.keycloak.services.util.CertificateInfoHelper;
+import org.keycloak.testsuite.AbstractTestRealmKeycloakTest;
 import org.keycloak.testsuite.Assert;
 import org.keycloak.testsuite.AssertEvents;
-import org.keycloak.testsuite.AbstractTestRealmKeycloakTest;
 import org.keycloak.testsuite.admin.AbstractAdminTest;
 import org.keycloak.testsuite.admin.ApiUtil;
 import org.keycloak.testsuite.client.resources.TestApplicationResourceUrls;
@@ -61,19 +63,12 @@ import org.keycloak.testsuite.util.ClientManager;
 import org.keycloak.testsuite.util.OAuthClient;
 import org.keycloak.util.JsonSerialization;
 
-import com.google.common.collect.ImmutableMap;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import static org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper.REQUEST_OBJECT_REQUIRED_REQUEST;
-import static org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper.REQUEST_OBJECT_REQUIRED_REQUEST_OR_REQUEST_URI;
-import static org.keycloak.protocol.oidc.OIDCAdvancedConfigWrapper.REQUEST_OBJECT_REQUIRED_REQUEST_URI;
+import static org.junit.Assert.*;
 
 /**
  * Test for supporting advanced parameters of OIDC specs (max_age, prompt, ...)
@@ -448,7 +443,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST_OR_REQUEST_URI);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST_OR_REQUEST_URI);
         clientResource.update(clientRep);
         
         // Send request without request object
@@ -468,7 +463,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST_OR_REQUEST_URI);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST_OR_REQUEST_URI);
         clientResource.update(clientRep);
         
         // Set up a request object
@@ -494,7 +489,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST_OR_REQUEST_URI);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST_OR_REQUEST_URI);
         clientResource.update(clientRep);
         
         // Set up a request object
@@ -520,7 +515,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST);
         clientResource.update(clientRep);
         
         // Send request without request object
@@ -540,7 +535,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST);
         clientResource.update(clientRep);
         
         // Set up a request object
@@ -566,7 +561,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST);
         clientResource.update(clientRep);
         
         // Set up a request object
@@ -591,7 +586,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST_URI);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST_URI);
         clientResource.update(clientRep);
         
         // Send request without request object
@@ -611,7 +606,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST_URI);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST_URI);
         clientResource.update(clientRep);
         
         // Set up a request object
@@ -636,7 +631,7 @@ public class OIDCAdvancedRequestParamsTest extends AbstractTestRealmKeycloakTest
         // Set request object not required for client
         ClientResource clientResource = ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app");
         ClientRepresentation clientRep = clientResource.toRepresentation();
-        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(REQUEST_OBJECT_REQUIRED_REQUEST_URI);
+        OIDCAdvancedConfigWrapper.fromClientRepresentation(clientRep).setRequestObjectRequired(OIDCConfigAttributes.REQUEST_OBJECT_REQUIRED_REQUEST_URI);
         clientResource.update(clientRep);
         
         // Set up a request object

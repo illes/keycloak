@@ -255,11 +255,11 @@ public abstract class AbstractOIDCResponseTypeTest extends AbstractTestRealmKeyc
         try {
             setSignatureAlgorithm("RS384");
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, "RS256");
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, "RS384");
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS384");
             oidcFlow("RS384");
         } finally {
             setSignatureAlgorithm("RS256");
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, "RS256");
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), "RS256");
         }
     }
     private String sigAlgName = "RS256";

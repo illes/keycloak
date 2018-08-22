@@ -826,34 +826,34 @@ public class RefreshTokenTest extends AbstractKeycloakTest {
     public void tokenRefreshRequest_RealmRS384_ClientRS384_EffectiveRS384() throws Exception {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS384);
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS384);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS384);
             refreshToken(Algorithm.RS384);
         } finally {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS256);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS256);
         }
     }
 
     @Test
-    public void tokenRefreshRequest_RealmRS256_ClientRS512_EffectiveRS512() throws Exception {
+    public void tokenRefreshRequest_RealmRS256_ClientRS512_EffectiveRS256() throws Exception {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS512);
-            refreshToken(Algorithm.RS512);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS512);
+            refreshToken(Algorithm.RS256);
         } finally {
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS256);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS256);
         }
     }
 
     @Test
-    public void tokenRefreshRequest_RealmRS256_ClientES256_EffectiveES256() throws Exception {
+    public void tokenRefreshRequest_RealmRS256_ClientES256_EffectiveRS256() throws Exception {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.ES256);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.ES256);
             TokenSignatureUtil.registerKeyProvider("P-256", adminClient, testContext);
-            refreshTokenSignatureVerifyOnly(Algorithm.ES256);
+            refreshTokenSignatureVerifyOnly(Algorithm.RS256);
         } finally {
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS256);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS256);
         }
     }
 
@@ -861,24 +861,24 @@ public class RefreshTokenTest extends AbstractKeycloakTest {
     public void tokenRefreshRequest_RealmES384_ClientES384_EffectiveES384() throws Exception {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.ES384);
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.ES384);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.ES384);
             TokenSignatureUtil.registerKeyProvider("P-384", adminClient, testContext);
             refreshTokenSignatureVerifyOnly(Algorithm.ES384);
         } finally {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS256);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS256);
         }
     }
 
     @Test
-    public void tokenRefreshRequest_RealmRS256_ClientES512_EffectiveES512() throws Exception {
+    public void tokenRefreshRequest_RealmRS256_ClientES512_EffectiveRS256() throws Exception {
         try {
             TokenSignatureUtil.changeRealmTokenSignatureProvider(adminClient, Algorithm.RS256);
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.ES512);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.ES512);
             TokenSignatureUtil.registerKeyProvider("P-521", adminClient, testContext);
-            refreshTokenSignatureVerifyOnly(Algorithm.ES512);
+            refreshTokenSignatureVerifyOnly(Algorithm.RS256);
         } finally {
-            TokenSignatureUtil.changeClientTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), adminClient, Algorithm.RS256);
+            TokenSignatureUtil.changeClientAccessTokenSignatureProvider(ApiUtil.findClientByClientId(adminClient.realm("test"), "test-app"), Algorithm.RS256);
         }
     }
 
