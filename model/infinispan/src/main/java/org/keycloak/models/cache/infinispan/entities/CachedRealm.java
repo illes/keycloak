@@ -180,6 +180,7 @@ public class CachedRealm extends AbstractExtendableRevisioned {
         failureFactor = model.getFailureFactor();
         //--- end brute force settings
 
+        defaultSignatureAlgorithm = model.getDefaultSignatureAlgorithm();
         revokeRefreshToken = model.isRevokeRefreshToken();
         refreshTokenMaxReuse = model.getRefreshTokenMaxReuse();
         ssoSessionIdleTimeout = model.getSsoSessionIdleTimeout();
