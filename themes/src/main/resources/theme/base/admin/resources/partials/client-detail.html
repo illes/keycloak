@@ -424,8 +424,9 @@
                     <div>
                         <select class="form-control" id="userInfoSignedResponseAlg"
                                 ng-change="changeUserInfoSignedResponseAlg()"
-                                ng-model="userInfoSignedResponseAlg"
-                                ng-options="sig for sig in oidcSignatureAlgorithms">
+                                ng-model="userInfoSignedResponseAlg">
+                            <option value="unsigned">unsigned</option>
+                            <option ng-repeat="provider in serverInfo.listProviderIds('tokenSignature')" value="{{provider}}">{{provider}}</option>
                         </select>
                     </div>
                 </div>
