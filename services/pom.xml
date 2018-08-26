@@ -264,7 +264,7 @@
 
                                     <reportOutputDirectory>${project.basedir}/target/apidocs-rest/swagger</reportOutputDirectory>
                                     <useStandardDocletOptions>false</useStandardDocletOptions>
-                                    <additionalparam> -logDebug -apiVersion 1 -includeResourcePrefixes org.keycloak.services.resources.admin,org.keycloak.protocol.oidc -docBasePath /apidocs -apiBasePath http://localhost:8080/auth -apiInfoFile ${project.basedir}/target/docs/swagger/apiinfo.json</additionalparam>
+				    <additionalparam> -logDebug -apiVersion 1 -includeResourcePrefixes org.keycloak.services.resources.admin,org.keycloak.protocol.oidc -docBasePath /keycloak/apidocs -apiBasePath http://localhost:8080/auth -apiInfoFile ${project.basedir}/target/docs/swagger/apiinfo.json</additionalparam>
                                 </configuration>
                                 <goals>
                                     <goal>javadoc</goal>
