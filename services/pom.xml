@@ -31,7 +31,7 @@
     <description />
 
     <properties>
-        <version.swagger.doclet>1.1.2</version.swagger.doclet>
+        <version.swagger.doclet>1.1.4-SNAPSHOT</version.swagger.doclet>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
@@ -245,9 +245,9 @@
                                 <id>generate-service-docs</id>
                                 <phase>generate-resources</phase>
                                 <configuration>
-                                    <doclet>com.carma.swagger.doclet.ServiceDoclet</doclet>
+                                    <doclet>com.tenxerconsulting.swagger.doclet.ServiceDoclet</doclet>
                                     <docletArtifact>
-                                        <groupId>com.carma</groupId>
+                                        <groupId>com.tenxerconsulting</groupId>
                                         <artifactId>swagger-doclet</artifactId>
                                         <version>${version.swagger.doclet}</version>
                                     </docletArtifact>
@@ -260,10 +260,11 @@
                                             <location>${project.basedir}/../target/site/apidocs</location>
                                         </offlineLink>
                                     </offlineLinks>
+                                    <verbose>true</verbose>
 
                                     <reportOutputDirectory>${project.basedir}/target/apidocs-rest/swagger</reportOutputDirectory>
                                     <useStandardDocletOptions>false</useStandardDocletOptions>
-                                    <additionalparam> -skipUiFiles -apiVersion 1 -includeResourcePrefixes org.keycloak.services.resources.admin,org.keycloak.protocol.oidc -docBasePath /apidocs -apiBasePath http://localhost:8080/auth -apiInfoFile ${project.basedir}/target/docs/swagger/apiinfo.json</additionalparam>
+                                    <additionalparam> -logDebug -apiVersion 1 -includeResourcePrefixes org.keycloak.services.resources.admin,org.keycloak.protocol.oidc -docBasePath /apidocs -apiBasePath http://localhost:8080/auth -apiInfoFile ${project.basedir}/target/docs/swagger/apiinfo.json</additionalparam>
                                 </configuration>
                                 <goals>
                                     <goal>javadoc</goal>
