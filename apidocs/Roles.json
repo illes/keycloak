@@ -1,0 +1,977 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Roles",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/clients/{id}/roles",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRoles",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get all roles for the realm or client",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "createRole",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "RoleRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create a new role for the realm or client",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/roles/{role-name}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRole",
+      "type" : "RoleRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get a role by name",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteRole",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete a role by name"
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateRole",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "RoleRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update a role by name",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/roles/{role-name}/composites",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addComposites",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add a composite to the role",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "GET",
+      "nickname" : "getRoleComposites",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "uniqueItems" : true,
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get composites of the role",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteComposites",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "array",
+        "description" : "roles to remove",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove roles from the role's composite",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/roles/{role-name}/composites/clients/{client}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientRoleComposites",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "uniqueItems" : true,
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "An app-level roles for the specified app for the role's composite",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/roles/{role-name}/composites/realm",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealmRoleComposites",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "uniqueItems" : true,
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles of the role's composite",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/roles/{role-name}/management/permissions",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getManagementPermissions",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return object stating whether role Authoirzation permissions have been initialized or not and a reference",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "setManagementPermissionsEnabled",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "ManagementPermissionReference",
+        "paramType" : "body",
+        "name" : "ref",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return object stating whether role Authoirzation permissions have been initialized or not and a reference",
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/roles/{role-name}/users",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getUsersInRole",
+      "type" : "array",
+      "items" : {
+        "$ref" : "UserRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "name" : "first"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "name" : "max"
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return List of Users that have the specified role name",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/roles",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRoles",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get all roles for the realm or client",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "createRole",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "RoleRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create a new role for the realm or client",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/roles/{role-name}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRole",
+      "type" : "RoleRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get a role by name",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteRole",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete a role by name"
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateRole",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "RoleRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update a role by name",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/roles/{role-name}/composites",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addComposites",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add a composite to the role",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "GET",
+      "nickname" : "getRoleComposites",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "uniqueItems" : true,
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get composites of the role",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteComposites",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "array",
+        "description" : "roles to remove",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove roles from the role's composite",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/roles/{role-name}/composites/clients/{client}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientRoleComposites",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "uniqueItems" : true,
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "An app-level roles for the specified app for the role's composite",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/roles/{role-name}/composites/realm",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealmRoleComposites",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "uniqueItems" : true,
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "role's name (not id!)",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles of the role's composite",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/roles/{role-name}/management/permissions",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getManagementPermissions",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return object stating whether role Authoirzation permissions have been initialized or not and a reference",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "setManagementPermissionsEnabled",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "ManagementPermissionReference",
+        "paramType" : "body",
+        "name" : "ref",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return object stating whether role Authoirzation permissions have been initialized or not and a reference",
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/roles/{role-name}/users",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getUsersInRole",
+      "type" : "array",
+      "items" : {
+        "$ref" : "UserRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "role-name",
+        "required" : true
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "name" : "first"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "name" : "max"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return List of Users that have the specified role name",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "RoleRepresentation" : {
+      "id" : "RoleRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "composite" : {
+          "type" : "boolean"
+        },
+        "composites" : {
+          "type" : "RoleRepresentation-Composites"
+        },
+        "clientRole" : {
+          "type" : "boolean"
+        },
+        "containerId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "CredentialRepresentation" : {
+      "id" : "CredentialRepresentation",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "device" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        },
+        "hashedSaltedValue" : {
+          "type" : "string"
+        },
+        "salt" : {
+          "type" : "string"
+        },
+        "hashIterations" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "counter" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "algorithm" : {
+          "type" : "string"
+        },
+        "digits" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "period" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "createdDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "config" : {
+          "type" : "MultivaluedHashMap"
+        },
+        "temporary" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "MultivaluedHashMap" : {
+      "id" : "MultivaluedHashMap",
+      "properties" : {
+        "empty" : {
+          "type" : "boolean"
+        },
+        "threshold" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "loadFactor" : {
+          "type" : "number",
+          "format" : "float"
+        }
+      }
+    },
+    "ManagementPermissionReference" : {
+      "id" : "ManagementPermissionReference",
+      "properties" : {
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "resource" : {
+          "type" : "string"
+        },
+        "scopePermissions" : {
+          "type" : "object"
+        }
+      }
+    },
+    "RoleRepresentation-Composites" : {
+      "id" : "RoleRepresentation-Composites",
+      "properties" : {
+        "realm" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "client" : {
+          "type" : "object"
+        }
+      }
+    },
+    "FederatedIdentityRepresentation" : {
+      "id" : "FederatedIdentityRepresentation",
+      "properties" : {
+        "identityProvider" : {
+          "type" : "string"
+        },
+        "userId" : {
+          "type" : "string"
+        },
+        "userName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "UserRepresentation" : {
+      "id" : "UserRepresentation",
+      "properties" : {
+        "self" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "origin" : {
+          "type" : "string"
+        },
+        "createdTimestamp" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "emailVerified" : {
+          "type" : "boolean"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "federationLink" : {
+          "type" : "string"
+        },
+        "serviceAccountClientId" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "credentials" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "CredentialRepresentation"
+          }
+        },
+        "disableableCredentialTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "requiredActions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "federatedIdentities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "FederatedIdentityRepresentation"
+          }
+        },
+        "realmRoles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "clientRoles" : {
+          "type" : "object"
+        },
+        "clientConsents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserConsentRepresentation"
+          }
+        },
+        "notBefore" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "access" : {
+          "type" : "object"
+        }
+      }
+    },
+    "UserConsentRepresentation" : {
+      "id" : "UserConsentRepresentation",
+      "properties" : {
+        "clientId" : {
+          "type" : "string"
+        },
+        "grantedClientScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "createdDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "lastUpdatedDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,693 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Scope Mappings",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/scope-mappings",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getScopeMappings",
+      "type" : "MappingsRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get all scope mappings for the client",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/scope-mappings/clients/{client}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get the roles associated with a client's scope\n\n Returns roles for the client.",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addClientScopeMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add client-level roles to the client's scope",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteClientScopeMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove client-level roles from the client's scope.",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/scope-mappings/clients/{client}/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableClientScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "The available client-level roles\n\n Returns the roles for the client that can be associated with the client's scope",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/scope-mappings/clients/{client}/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeClientScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective client roles\n\n Returns the roles for the client that are associated with the client's scope.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/scope-mappings/realm",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealmScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles associated with the client's scope",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addRealmScopeMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add a set of realm-level roles to the client's scope",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteRealmScopeMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove a set of realm-level roles from the client's scope",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/scope-mappings/realm/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableRealmScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles that are available to attach to this client's scope",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/scope-mappings/realm/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeRealmScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective realm-level roles associated with the client's scope\n\n What this does is recurse\n any composite roles associated with the client's scope and adds the roles to this lists.",
+      "notes" : "The method is really\n to show a comprehensive total view of realm-level roles associated with the client.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/scope-mappings",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getScopeMappings",
+      "type" : "MappingsRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get all scope mappings for the client",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/scope-mappings/clients/{client}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get the roles associated with a client's scope\n\n Returns roles for the client.",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addClientScopeMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add client-level roles to the client's scope",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteClientScopeMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove client-level roles from the client's scope.",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/scope-mappings/clients/{client}/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableClientScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "The available client-level roles\n\n Returns the roles for the client that can be associated with the client's scope",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/scope-mappings/clients/{client}/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeClientScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective client roles\n\n Returns the roles for the client that are associated with the client's scope.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/scope-mappings/realm",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealmScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles associated with the client's scope",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addRealmScopeMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add a set of realm-level roles to the client's scope",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteRealmScopeMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove a set of realm-level roles from the client's scope",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/scope-mappings/realm/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableRealmScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles that are available to attach to this client's scope",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/scope-mappings/realm/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeRealmScopeMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective realm-level roles associated with the client's scope\n\n What this does is recurse\n any composite roles associated with the client's scope and adds the roles to this lists.",
+      "notes" : "The method is really\n to show a comprehensive total view of realm-level roles associated with the client.",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "RoleRepresentation" : {
+      "id" : "RoleRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "composite" : {
+          "type" : "boolean"
+        },
+        "composites" : {
+          "type" : "RoleRepresentation-Composites"
+        },
+        "clientRole" : {
+          "type" : "boolean"
+        },
+        "containerId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "RoleRepresentation-Composites" : {
+      "id" : "RoleRepresentation-Composites",
+      "properties" : {
+        "realm" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "client" : {
+          "type" : "object"
+        }
+      }
+    },
+    "MappingsRepresentation" : {
+      "id" : "MappingsRepresentation",
+      "properties" : {
+        "realmMappings" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "RoleRepresentation"
+          }
+        },
+        "clientMappings" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ClientMappingsRepresentation" : {
+      "id" : "ClientMappingsRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "client" : {
+          "type" : "string"
+        },
+        "mappings" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "RoleRepresentation"
+          }
+        }
+      }
+    }
+  }
+}

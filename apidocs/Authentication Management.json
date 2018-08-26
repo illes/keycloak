@@ -1,0 +1,945 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Authentication Management",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/authentication/authenticator-providers",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAuthenticatorProviders",
+      "type" : "array",
+      "items" : {
+        "$ref" : "object"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get authenticator providers\n\n Returns a list of authenticator providers.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/client-authenticator-providers",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientAuthenticatorProviders",
+      "type" : "array",
+      "items" : {
+        "$ref" : "object"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get client authenticator providers\n\n Returns a list of client authenticator providers.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/config-description/{providerId}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAuthenticatorConfigDescription",
+      "type" : "AuthenticatorConfigInfoRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "providerId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get authenticator provider's configuration description",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/config/{id}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAuthenticatorConfig",
+      "type" : "AuthenticatorConfigRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Configuration id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get authenticator configuration",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "removeAuthenticatorConfig",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Configuration id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete authenticator configuration"
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateAuthenticatorConfig",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Configuration id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "AuthenticatorConfigRepresentation",
+        "description" : "JSON describing new state of authenticator configuration",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update authenticator configuration",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/executions",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addExecution",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "AuthenticationExecutionRepresentation",
+        "description" : "JSON model describing authentication execution",
+        "paramType" : "body",
+        "name" : "execution",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add new authentication execution",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/executions/{executionId}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getExecution",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "executionId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get Single Execution",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "removeExecution",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Execution id",
+        "paramType" : "path",
+        "name" : "executionId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete execution"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/executions/{executionId}/config",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "newExecutionConfig",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Execution id",
+        "paramType" : "path",
+        "name" : "executionId",
+        "required" : true
+      }, {
+        "type" : "AuthenticatorConfigRepresentation",
+        "description" : "JSON with new configuration",
+        "paramType" : "body",
+        "name" : "json",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update execution with new configuration",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/executions/{executionId}/lower-priority",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "lowerPriority",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Execution id",
+        "paramType" : "path",
+        "name" : "executionId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Lower execution's priority"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/executions/{executionId}/raise-priority",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "raisePriority",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Execution id",
+        "paramType" : "path",
+        "name" : "executionId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Raise execution's priority"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/flows",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getFlows",
+      "type" : "array",
+      "items" : {
+        "$ref" : "AuthenticationFlowRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get authentication flows\n\n Returns a list of authentication flows.",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "createFlow",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "AuthenticationFlowRepresentation",
+        "description" : "Authentication flow representation",
+        "paramType" : "body",
+        "name" : "flow",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create a new authentication flow",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/flows/{flowAlias}/copy",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "copy",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Name of the existing authentication flow",
+        "paramType" : "path",
+        "name" : "flowAlias",
+        "required" : true
+      }, {
+        "type" : "object",
+        "description" : "JSON containing 'newName' attribute",
+        "paramType" : "body",
+        "name" : "data",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Copy existing authentication flow under a new name\n\n The new name is given as 'newName' attribute of the passed JSON object",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/flows/{flowAlias}/executions",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getExecutions",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Flow alias",
+        "paramType" : "path",
+        "name" : "flowAlias",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get authentication executions for a flow",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateExecutions",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Flow alias",
+        "paramType" : "path",
+        "name" : "flowAlias",
+        "required" : true
+      }, {
+        "type" : "AuthenticationExecutionInfoRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update authentication executions of a flow",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/flows/{flowAlias}/executions/execution",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addExecutionToFlow",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Alias of parent flow",
+        "paramType" : "path",
+        "name" : "flowAlias",
+        "required" : true
+      }, {
+        "type" : "object",
+        "description" : "New execution JSON data containing 'provider' attribute",
+        "paramType" : "body",
+        "name" : "data",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add new authentication execution to a flow",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/flows/{flowAlias}/executions/flow",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addExecutionFlow",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Alias of parent authentication flow",
+        "paramType" : "path",
+        "name" : "flowAlias",
+        "required" : true
+      }, {
+        "type" : "object",
+        "description" : "New authentication flow / execution JSON data containing 'alias', 'type', 'provider', and 'description' attributes",
+        "paramType" : "body",
+        "name" : "data",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add new flow with new execution to existing flow",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/flows/{id}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getFlow",
+      "type" : "AuthenticationFlowRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Flow id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get authentication flow for id",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateFlow",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "AuthenticationFlowRepresentation",
+        "description" : "Authentication flow representation",
+        "paramType" : "body",
+        "name" : "flow",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update an authentication flow",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteFlow",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Flow id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete an authentication flow"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/form-action-providers",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getFormActionProviders",
+      "type" : "array",
+      "items" : {
+        "$ref" : "object"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get form action providers\n\n Returns a list of form action providers.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/form-providers",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getFormProviders",
+      "type" : "array",
+      "items" : {
+        "$ref" : "object"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get form providers\n\n Returns a list of form providers.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/per-client-config-description",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getPerClientConfigDescription",
+      "type" : "object",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get configuration descriptions for all clients",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/register-required-action",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "registerRequiredAction",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "object",
+        "description" : "JSON containing 'providerId', and 'name' attributes.",
+        "paramType" : "body",
+        "name" : "data",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Register a new required actions",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/required-actions",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRequiredActions",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RequiredActionProviderRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get required actions\n\n Returns a list of required actions.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/required-actions/{alias}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRequiredAction",
+      "type" : "RequiredActionProviderRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Alias of required action",
+        "paramType" : "path",
+        "name" : "alias",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get required action for alias",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateRequiredAction",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Alias of required action",
+        "paramType" : "path",
+        "name" : "alias",
+        "required" : true
+      }, {
+        "type" : "RequiredActionProviderRepresentation",
+        "description" : "JSON describing new state of required action",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update required action",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "removeRequiredAction",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Alias of required action",
+        "paramType" : "path",
+        "name" : "alias",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete required action"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/required-actions/{alias}/lower-priority",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "lowerRequiredActionPriority",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Alias of required action",
+        "paramType" : "path",
+        "name" : "alias",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Lower required action's priority"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/required-actions/{alias}/raise-priority",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "raiseRequiredActionPriority",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Alias of required action",
+        "paramType" : "path",
+        "name" : "alias",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Raise required action's priority"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/authentication/unregistered-required-actions",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getUnregisteredRequiredActions",
+      "type" : "array",
+      "items" : {
+        "$ref" : "object"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get unregistered required actions\n\n Returns a list of unregistered required actions.",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "RequiredActionProviderRepresentation" : {
+      "id" : "RequiredActionProviderRepresentation",
+      "properties" : {
+        "alias" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "defaultAction" : {
+          "type" : "boolean"
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "AuthenticationExecutionRepresentation" : {
+      "id" : "AuthenticationExecutionRepresentation",
+      "properties" : {
+        "authenticatorConfig" : {
+          "type" : "string"
+        },
+        "authenticator" : {
+          "type" : "string"
+        },
+        "authenticatorFlow" : {
+          "type" : "boolean"
+        },
+        "requirement" : {
+          "type" : "string"
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "autheticatorFlow" : {
+          "type" : "boolean"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "flowId" : {
+          "type" : "string"
+        },
+        "parentFlow" : {
+          "type" : "string"
+        }
+      }
+    },
+    "AuthenticatorConfigInfoRepresentation" : {
+      "id" : "AuthenticatorConfigInfoRepresentation",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "helpText" : {
+          "type" : "string"
+        },
+        "properties" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ConfigPropertyRepresentation"
+          }
+        }
+      }
+    },
+    "AuthenticationFlowRepresentation" : {
+      "id" : "AuthenticationFlowRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "topLevel" : {
+          "type" : "boolean"
+        },
+        "builtIn" : {
+          "type" : "boolean"
+        },
+        "authenticationExecutions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "AuthenticationExecutionExportRepresentation"
+          }
+        }
+      }
+    },
+    "AuthenticationExecutionInfoRepresentation" : {
+      "id" : "AuthenticationExecutionInfoRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "requirement" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "requirementChoices" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "configurable" : {
+          "type" : "boolean"
+        },
+        "authenticationFlow" : {
+          "type" : "boolean"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "authenticationConfig" : {
+          "type" : "string"
+        },
+        "flowId" : {
+          "type" : "string"
+        },
+        "level" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "index" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "AuthenticationExecutionExportRepresentation" : {
+      "id" : "AuthenticationExecutionExportRepresentation",
+      "properties" : {
+        "authenticatorConfig" : {
+          "type" : "string"
+        },
+        "authenticator" : {
+          "type" : "string"
+        },
+        "authenticatorFlow" : {
+          "type" : "boolean"
+        },
+        "requirement" : {
+          "type" : "string"
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "autheticatorFlow" : {
+          "type" : "boolean"
+        },
+        "flowAlias" : {
+          "type" : "string"
+        },
+        "userSetupAllowed" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "AuthenticatorConfigRepresentation" : {
+      "id" : "AuthenticatorConfigRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ConfigPropertyRepresentation" : {
+      "id" : "ConfigPropertyRepresentation",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "label" : {
+          "type" : "string"
+        },
+        "helpText" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "defaultValue" : {
+          "type" : "Object"
+        },
+        "options" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "secret" : {
+          "type" : "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,353 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Client Role Mappings",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/groups/{id}/role-mappings/clients/{client}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get client-level role mappings for the user, and the app",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addClientRoleMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add client-level roles to the user role mapping",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteClientRoleMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete client-level roles from user role mapping",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/role-mappings/clients/{client}/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableClientRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get available client-level roles that can be mapped to the user",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/role-mappings/clients/{client}/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeClientRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective client-level role mappings\n\n This recurses any composite roles",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users/{id}/role-mappings/clients/{client}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get client-level role mappings for the user, and the app",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addClientRoleMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add client-level roles to the user role mapping",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteClientRoleMapping",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete client-level roles from user role mapping",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users/{id}/role-mappings/clients/{client}/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableClientRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get available client-level roles that can be mapped to the user",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users/{id}/role-mappings/clients/{client}/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeClientRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "client",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective client-level role mappings\n\n This recurses any composite roles",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "RoleRepresentation" : {
+      "id" : "RoleRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "composite" : {
+          "type" : "boolean"
+        },
+        "composites" : {
+          "type" : "RoleRepresentation-Composites"
+        },
+        "clientRole" : {
+          "type" : "boolean"
+        },
+        "containerId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "RoleRepresentation-Composites" : {
+      "id" : "RoleRepresentation-Composites",
+      "properties" : {
+        "realm" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "client" : {
+          "type" : "object"
+        }
+      }
+    }
+  }
+}

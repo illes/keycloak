@@ -1,0 +1,167 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/User Storage Provider",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/user-storage/{id}/name",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getSimpleName",
+      "type" : "object",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Need this for admin console to display simple name of provider when displaying user detail\n\n KEYCLOAK-4328",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/user-storage/{id}/remove-imported-users",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "removeImportedUsers",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove imported users"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/user-storage/{id}/sync",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "syncUsers",
+      "type" : "SynchronizationResult",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "action"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Trigger sync of users\n\n Action can be \"triggerFullSync\" or \"triggerChangedUsersSync\"",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/user-storage/{id}/unlink-users",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "unlinkUsers",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Unlink imported users from a storage provider"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/user-storage/{parentId}/mappers/{id}/sync",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "syncMapperData",
+      "type" : "SynchronizationResult",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "parentId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "direction"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Trigger sync of mapper data related to ldap mapper (roles, groups, ...)\n\n direction is \"fedToKeycloak\" or \"keycloakToFed\"",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/{id}/name",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getSimpleName",
+      "type" : "object",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      } ],
+      "summary" : "Need this for admin console to display simple name of provider when displaying client detail\n\n KEYCLOAK-4328",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "SynchronizationResult" : {
+      "id" : "SynchronizationResult",
+      "properties" : {
+        "ignored" : {
+          "type" : "boolean"
+        },
+        "added" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "updated" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "removed" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "failed" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

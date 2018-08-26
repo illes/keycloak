@@ -1,0 +1,224 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Server Info",
+  "apis" : [ {
+    "path" : "/admin/serverinfo",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getInfo",
+      "type" : "ServerInfoRepresentation",
+      "summary" : "Get themes, social providers, auth providers, and event listeners available on this server",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "SpiInfoRepresentation" : {
+      "id" : "SpiInfoRepresentation",
+      "properties" : {
+        "internal" : {
+          "type" : "boolean"
+        },
+        "providers" : {
+          "type" : "object"
+        }
+      }
+    },
+    "SystemInfoRepresentation" : {
+      "id" : "SystemInfoRepresentation",
+      "properties" : {
+        "version" : {
+          "type" : "string"
+        },
+        "serverTime" : {
+          "type" : "string"
+        },
+        "uptime" : {
+          "type" : "string"
+        },
+        "uptimeMillis" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "javaVersion" : {
+          "type" : "string"
+        },
+        "javaVendor" : {
+          "type" : "string"
+        },
+        "javaVm" : {
+          "type" : "string"
+        },
+        "javaVmVersion" : {
+          "type" : "string"
+        },
+        "javaRuntime" : {
+          "type" : "string"
+        },
+        "javaHome" : {
+          "type" : "string"
+        },
+        "osName" : {
+          "type" : "string"
+        },
+        "osArchitecture" : {
+          "type" : "string"
+        },
+        "osVersion" : {
+          "type" : "string"
+        },
+        "fileEncoding" : {
+          "type" : "string"
+        },
+        "userName" : {
+          "type" : "string"
+        },
+        "userDir" : {
+          "type" : "string"
+        },
+        "userTimezone" : {
+          "type" : "string"
+        },
+        "userLocale" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PasswordPolicyTypeRepresentation" : {
+      "id" : "PasswordPolicyTypeRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "configType" : {
+          "type" : "string"
+        },
+        "defaultValue" : {
+          "type" : "string"
+        },
+        "multipleSupported" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "ServerInfoRepresentation" : {
+      "id" : "ServerInfoRepresentation",
+      "properties" : {
+        "systemInfo" : {
+          "type" : "SystemInfoRepresentation"
+        },
+        "memoryInfo" : {
+          "type" : "MemoryInfoRepresentation"
+        },
+        "profileInfo" : {
+          "type" : "ProfileInfoRepresentation"
+        },
+        "themes" : {
+          "type" : "object"
+        },
+        "socialProviders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "object"
+          }
+        },
+        "identityProviders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "object"
+          }
+        },
+        "clientImporters" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "object"
+          }
+        },
+        "providers" : {
+          "type" : "object"
+        },
+        "protocolMapperTypes" : {
+          "type" : "object"
+        },
+        "builtinProtocolMappers" : {
+          "type" : "object"
+        },
+        "clientInstallations" : {
+          "type" : "object"
+        },
+        "componentTypes" : {
+          "type" : "object"
+        },
+        "passwordPolicies" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "PasswordPolicyTypeRepresentation"
+          }
+        },
+        "enums" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ProviderRepresentation" : {
+      "id" : "ProviderRepresentation",
+      "properties" : {
+        "order" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "operationalInfo" : {
+          "type" : "object"
+        }
+      }
+    },
+    "MemoryInfoRepresentation" : {
+      "id" : "MemoryInfoRepresentation",
+      "properties" : {
+        "total" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "totalFormated" : {
+          "type" : "string"
+        },
+        "used" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "usedFormated" : {
+          "type" : "string"
+        },
+        "free" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "freePercentage" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "freeFormated" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProfileInfoRepresentation" : {
+      "id" : "ProfileInfoRepresentation",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "disabledFeatures" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

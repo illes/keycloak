@@ -1,0 +1,379 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Role Mapper",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/groups/{id}/role-mappings",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRoleMappings",
+      "type" : "MappingsRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get role mappings",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/role-mappings/realm",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealmRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level role mappings",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addRealmRoleMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "description" : "Roles to add",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add realm-level role mappings to the user",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteRealmRoleMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete realm-level role mappings",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/role-mappings/realm/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableRealmRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles that can be mapped",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/role-mappings/realm/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeRealmRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective realm-level role mappings\n\n This will recurse all composite roles to get the result.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users/{id}/role-mappings",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRoleMappings",
+      "type" : "MappingsRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get role mappings",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users/{id}/role-mappings/realm",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealmRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level role mappings",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addRealmRoleMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "description" : "Roles to add",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Add realm-level role mappings to the user",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteRealmRoleMappings",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "RoleRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "roles",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete realm-level role mappings",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users/{id}/role-mappings/realm/available",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getAvailableRealmRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm-level roles that can be mapped",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users/{id}/role-mappings/realm/composite",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getCompositeRealmRoleMappings",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RoleRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get effective realm-level role mappings\n\n This will recurse all composite roles to get the result.",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "RoleRepresentation" : {
+      "id" : "RoleRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "composite" : {
+          "type" : "boolean"
+        },
+        "composites" : {
+          "type" : "RoleRepresentation-Composites"
+        },
+        "clientRole" : {
+          "type" : "boolean"
+        },
+        "containerId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "RoleRepresentation-Composites" : {
+      "id" : "RoleRepresentation-Composites",
+      "properties" : {
+        "realm" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "client" : {
+          "type" : "object"
+        }
+      }
+    },
+    "MappingsRepresentation" : {
+      "id" : "MappingsRepresentation",
+      "properties" : {
+        "realmMappings" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "RoleRepresentation"
+          }
+        },
+        "clientMappings" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ClientMappingsRepresentation" : {
+      "id" : "ClientMappingsRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "client" : {
+          "type" : "string"
+        },
+        "mappings" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "RoleRepresentation"
+          }
+        }
+      }
+    }
+  }
+}

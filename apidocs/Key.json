@@ -1,0 +1,72 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Key",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/keys",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getKeyMetadata",
+      "type" : "KeysMetadataRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "KeysMetadataRepresentation" : {
+      "id" : "KeysMetadataRepresentation",
+      "properties" : {
+        "active" : {
+          "type" : "object"
+        },
+        "keys" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "KeysMetadataRepresentation-KeyMetadataRepresentation"
+          }
+        }
+      }
+    },
+    "KeysMetadataRepresentation-KeyMetadataRepresentation" : {
+      "id" : "KeysMetadataRepresentation-KeyMetadataRepresentation",
+      "properties" : {
+        "providerId" : {
+          "type" : "string"
+        },
+        "providerPriority" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "kid" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "algorithms" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "publicKey" : {
+          "type" : "string"
+        },
+        "certificate" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

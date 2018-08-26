@@ -1,0 +1,375 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Protocol Mappers",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/protocol-mappers/add-models",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "createMapper",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "ProtocolMapperRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "reps",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create multiple mappers",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/protocol-mappers/models",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "createMapper",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "ProtocolMapperRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create a mapper",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "GET",
+      "nickname" : "getMappers",
+      "type" : "array",
+      "items" : {
+        "$ref" : "ProtocolMapperRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get mappers",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/protocol-mappers/models/{id}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getMapperById",
+      "type" : "ProtocolMapperRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Mapper id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get mapper by id",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "update",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Mapper id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "ProtocolMapperRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update the mapper",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "delete",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Mapper id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete the mapper"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-scopes/{id}/protocol-mappers/protocol/{protocol}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getMappersPerProtocol",
+      "type" : "array",
+      "items" : {
+        "$ref" : "ProtocolMapperRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "protocol",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client scope (not name)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get mappers by name for a specific protocol",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/protocol-mappers/add-models",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "createMapper",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "$ref" : "ProtocolMapperRepresentation"
+        },
+        "paramType" : "body",
+        "name" : "reps",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create multiple mappers",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/protocol-mappers/models",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "createMapper",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "ProtocolMapperRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create a mapper",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "GET",
+      "nickname" : "getMappers",
+      "type" : "array",
+      "items" : {
+        "$ref" : "ProtocolMapperRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get mappers",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/protocol-mappers/models/{id}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getMapperById",
+      "type" : "ProtocolMapperRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Mapper id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get mapper by id",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "update",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Mapper id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "ProtocolMapperRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update the mapper",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "delete",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "Mapper id",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete the mapper"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/protocol-mappers/protocol/{protocol}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getMappersPerProtocol",
+      "type" : "array",
+      "items" : {
+        "$ref" : "ProtocolMapperRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "protocol",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get mappers by name for a specific protocol",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "ProtocolMapperRepresentation" : {
+      "id" : "ProtocolMapperRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "protocol" : {
+          "type" : "string"
+        },
+        "protocolMapper" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    }
+  }
+}

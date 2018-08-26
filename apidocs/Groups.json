@@ -1,0 +1,503 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Groups",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/groups",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getGroups",
+      "type" : "array",
+      "items" : {
+        "$ref" : "GroupRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "search"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "name" : "first"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "name" : "max"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get group hierarchy.",
+      "notes" : "Only name and ids are returned.",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "addTopLevelGroup",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "GroupRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "create or add a top level realm groupSet or create child.",
+      "notes" : "This will update the group and set the parent if it exists.  Create it and set the parent\n if the group doesn't exist.",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/count",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getGroupCount",
+      "type" : "object",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "search"
+      }, {
+        "type" : "boolean",
+        "defaultValue" : "false",
+        "paramType" : "query",
+        "name" : "top"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Returns the groups counts.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getGroup",
+      "type" : "GroupRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateGroup",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "GroupRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update group, ignores subgroups.",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteGroup",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/children",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "addChild",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "GroupRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Set or create child.",
+      "notes" : "This will just set the parent if it exists.  Create it and set the parent\n if the group doesn't exist.",
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/management/permissions",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getManagementPermissions",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return object stating whether client Authorization permissions have been initialized or not and a reference",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "setManagementPermissionsEnabled",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "ManagementPermissionReference",
+        "paramType" : "body",
+        "name" : "ref",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Return object stating whether client Authorization permissions have been initialized or not and a reference",
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/groups/{id}/members",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getMembers",
+      "type" : "array",
+      "items" : {
+        "$ref" : "UserRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "Pagination offset",
+        "paramType" : "query",
+        "name" : "first"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "Maximum results size (defaults to 100)",
+        "paramType" : "query",
+        "name" : "max"
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get users\n\n Returns a list of users, filtered according to query parameters",
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "CredentialRepresentation" : {
+      "id" : "CredentialRepresentation",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "device" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        },
+        "hashedSaltedValue" : {
+          "type" : "string"
+        },
+        "salt" : {
+          "type" : "string"
+        },
+        "hashIterations" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "counter" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "algorithm" : {
+          "type" : "string"
+        },
+        "digits" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "period" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "createdDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "config" : {
+          "type" : "MultivaluedHashMap"
+        },
+        "temporary" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "MultivaluedHashMap" : {
+      "id" : "MultivaluedHashMap",
+      "properties" : {
+        "empty" : {
+          "type" : "boolean"
+        },
+        "threshold" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "loadFactor" : {
+          "type" : "number",
+          "format" : "float"
+        }
+      }
+    },
+    "GroupRepresentation" : {
+      "id" : "GroupRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "path" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "realmRoles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "clientRoles" : {
+          "type" : "object"
+        },
+        "subGroups" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "GroupRepresentation"
+          }
+        },
+        "access" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ManagementPermissionReference" : {
+      "id" : "ManagementPermissionReference",
+      "properties" : {
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "resource" : {
+          "type" : "string"
+        },
+        "scopePermissions" : {
+          "type" : "object"
+        }
+      }
+    },
+    "FederatedIdentityRepresentation" : {
+      "id" : "FederatedIdentityRepresentation",
+      "properties" : {
+        "identityProvider" : {
+          "type" : "string"
+        },
+        "userId" : {
+          "type" : "string"
+        },
+        "userName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "UserRepresentation" : {
+      "id" : "UserRepresentation",
+      "properties" : {
+        "self" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "origin" : {
+          "type" : "string"
+        },
+        "createdTimestamp" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "emailVerified" : {
+          "type" : "boolean"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "federationLink" : {
+          "type" : "string"
+        },
+        "serviceAccountClientId" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "credentials" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "CredentialRepresentation"
+          }
+        },
+        "disableableCredentialTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "requiredActions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "federatedIdentities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "FederatedIdentityRepresentation"
+          }
+        },
+        "realmRoles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "clientRoles" : {
+          "type" : "object"
+        },
+        "clientConsents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserConsentRepresentation"
+          }
+        },
+        "notBefore" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "access" : {
+          "type" : "object"
+        }
+      }
+    },
+    "UserConsentRepresentation" : {
+      "id" : "UserConsentRepresentation",
+      "properties" : {
+        "clientId" : {
+          "type" : "string"
+        },
+        "grantedClientScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "createdDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "lastUpdatedDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    }
+  }
+}

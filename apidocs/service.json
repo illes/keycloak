@@ -1,0 +1,54 @@
+{
+  "swaggerVersion" : "1.2",
+  "apiVersion" : "1",
+  "basePath" : "/keycloak/apidocs",
+  "apis" : [ {
+    "path" : "/Clients.{format}"
+  }, {
+    "path" : "/Groups.{format}"
+  }, {
+    "path" : "/Protocol Mappers.{format}"
+  }, {
+    "path" : "/Roles.{format}"
+  }, {
+    "path" : "/Key.{format}"
+  }, {
+    "path" : "/Attack Detection.{format}"
+  }, {
+    "path" : "/Roles (by ID).{format}"
+  }, {
+    "path" : "/Scope Mappings.{format}"
+  }, {
+    "path" : "/Authentication Management.{format}"
+  }, {
+    "path" : "/Users.{format}"
+  }, {
+    "path" : "/Identity Providers.{format}"
+  }, {
+    "path" : "/Realms Admin.{format}"
+  }, {
+    "path" : "/Component.{format}"
+  }, {
+    "path" : "/User Storage Provider.{format}"
+  }, {
+    "path" : "/Client Registration Policy.{format}"
+  }, {
+    "path" : "/Role Mapper.{format}"
+  }, {
+    "path" : "/Client Role Mappings.{format}"
+  }, {
+    "path" : "/Server Info.{format}"
+  }, {
+    "path" : "/Client Scopes.{format}"
+  }, {
+    "path" : "/root.{format}"
+  }, {
+    "path" : "/Client Attribute Certificate.{format}"
+  }, {
+    "path" : "/Client Initial Access.{format}"
+  } ],
+  "info" : {
+    "title" : "Keycloak Admin REST API",
+    "description" : "This is a REST API reference for the Keycloak Admin"
+  }
+}

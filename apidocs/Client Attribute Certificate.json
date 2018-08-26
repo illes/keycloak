@@ -1,0 +1,246 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Client Attribute Certificate",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/clients/{id}/certificates/{attr}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getKeyInfo",
+      "type" : "CertificateRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "attr",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get key info",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/certificates/{attr}/download",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "getKeystore",
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "format" : "byte"
+      },
+      "parameters" : [ {
+        "type" : "KeyStoreConfig",
+        "description" : "Keystore configuration as JSON",
+        "paramType" : "body",
+        "name" : "config",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "attr",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get a keystore file for the client, containing private key and public certificate",
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/octet-stream" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/certificates/{attr}/generate",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "generate",
+      "type" : "CertificateRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "attr",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Generate a new certificate with new key pair",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/certificates/{attr}/generate-and-download",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "generateAndGetKeystore",
+      "type" : "array",
+      "items" : {
+        "type" : "string",
+        "format" : "byte"
+      },
+      "parameters" : [ {
+        "type" : "KeyStoreConfig",
+        "description" : "Keystore configuration as JSON",
+        "paramType" : "body",
+        "name" : "config",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "attr",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Generate a new keypair and certificate, and get the private key file\n\n Generates a keypair and certificate and serves the private key in a specified keystore format.",
+      "notes" : "Only generated public certificate is saved in Keycloak DB - the private key is not.",
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/octet-stream" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/certificates/{attr}/upload",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "uploadJks",
+      "type" : "CertificateRepresentation",
+      "parameters" : [ {
+        "type" : "File",
+        "paramType" : "form",
+        "name" : "input",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "attr",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Upload certificate and eventually private key",
+      "consumes" : [ "multipart/form-data" ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients/{id}/certificates/{attr}/upload-certificate",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "uploadJksCertificate",
+      "type" : "CertificateRepresentation",
+      "parameters" : [ {
+        "type" : "File",
+        "paramType" : "form",
+        "name" : "input",
+        "required" : true
+      }, {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "attr",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "id of client (not client-id)",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Upload only certificate, not private key",
+      "consumes" : [ "multipart/form-data" ],
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "CertificateRepresentation" : {
+      "id" : "CertificateRepresentation",
+      "properties" : {
+        "privateKey" : {
+          "type" : "string"
+        },
+        "publicKey" : {
+          "type" : "string"
+        },
+        "certificate" : {
+          "type" : "string"
+        },
+        "kid" : {
+          "type" : "string"
+        }
+      }
+    },
+    "KeyStoreConfig" : {
+      "id" : "KeyStoreConfig",
+      "properties" : {
+        "realmCertificate" : {
+          "type" : "boolean"
+        },
+        "storePassword" : {
+          "type" : "string"
+        },
+        "keyPassword" : {
+          "type" : "string"
+        },
+        "keyAlias" : {
+          "type" : "string"
+        },
+        "realmAlias" : {
+          "type" : "string"
+        },
+        "format" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}

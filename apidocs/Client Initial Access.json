@@ -1,0 +1,105 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Client Initial Access",
+  "apis" : [ {
+    "path" : "/admin/realms/{realm}/clients-initial-access",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "create",
+      "type" : "ClientInitialAccessPresentation",
+      "parameters" : [ {
+        "type" : "ClientInitialAccessCreatePresentation",
+        "paramType" : "body",
+        "name" : "config",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Create a new initial access token.",
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "GET",
+      "nickname" : "list",
+      "type" : "array",
+      "items" : {
+        "$ref" : "ClientInitialAccessPresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clients-initial-access/{id}",
+    "operations" : [ {
+      "method" : "DELETE",
+      "nickname" : "delete",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "id",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    } ]
+  } ],
+  "models" : {
+    "ClientInitialAccessPresentation" : {
+      "id" : "ClientInitialAccessPresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "token" : {
+          "type" : "string"
+        },
+        "timestamp" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "expiration" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "count" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "remainingCount" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "ClientInitialAccessCreatePresentation" : {
+      "id" : "ClientInitialAccessCreatePresentation",
+      "properties" : {
+        "expiration" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "count" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    }
+  }
+}

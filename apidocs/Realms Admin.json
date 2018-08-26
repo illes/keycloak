@@ -1,0 +1,2179 @@
+{
+  "apiVersion" : "1",
+  "swaggerVersion" : "1.2",
+  "basePath" : "http://localhost:8080/auth",
+  "resourcePath" : "/Realms Admin",
+  "apis" : [ {
+    "path" : "/admin/realms",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealms",
+      "type" : "array",
+      "items" : {
+        "$ref" : "RealmRepresentation"
+      },
+      "summary" : "Get accessible realms\n\n Returns a list of accessible realms.",
+      "notes" : "The list is filtered based on what realms the caller is allowed to view.",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "POST",
+      "nickname" : "importRealm",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "RealmRepresentation",
+        "description" : "JSON representation of the realm",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      } ],
+      "summary" : "Import a realm\n\n Imports a realm from a full representation of that realm.",
+      "notes" : "Realm name must be unique.",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealm",
+      "type" : "RealmRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get the top-level representation of the realm\n\n It will not include nested information like User and Client representations.",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateRealm",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "RealmRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update the top-level information of the realm\n\n Any user, roles or client information in the representation\n will be ignored.",
+      "notes" : "This will only update top-level attributes of the realm.",
+      "consumes" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "deleteRealm",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete the realm"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/admin-events",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getEvents",
+      "type" : "array",
+      "items" : {
+        "$ref" : "AdminEventRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "array",
+        "items" : {
+          "type" : "string"
+        },
+        "paramType" : "query",
+        "name" : "operationTypes"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "authRealm"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "authClient"
+      }, {
+        "type" : "string",
+        "description" : "user id",
+        "paramType" : "query",
+        "name" : "authUser"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "authIpAddress"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "resourcePath"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "dateFrom"
+      }, {
+        "type" : "string",
+        "paramType" : "query",
+        "name" : "dateTo"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "paramType" : "query",
+        "name" : "first"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "Maximum results size (defaults to 100)",
+        "paramType" : "query",
+        "name" : "max"
+      }, {
+        "type" : "array",
+        "items" : {
+          "type" : "string"
+        },
+        "paramType" : "query",
+        "name" : "resourceTypes"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get admin events\n\n Returns all admin events, or filters events based on URL query parameters listed here",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "clearAdminEvents",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete all admin events"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clear-keys-cache",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "clearKeysCache",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Clear cache of external public keys (Public keys of clients or Identity providers)"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clear-realm-cache",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "clearRealmCache",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Clear realm cache"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/clear-user-cache",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "clearUserCache",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Clear user cache"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-description-converter",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "convertClientDescription",
+      "type" : "ClientRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "body",
+        "name" : "description",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Base path for importing clients under this realm.",
+      "consumes" : [ "application/json", "application/xml", "text/plain" ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/client-session-stats",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getClientSessionStats",
+      "type" : "array",
+      "items" : {
+        "$ref" : "object"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get client session stats\n\n Returns a JSON map.",
+      "notes" : "The key is the client id, the value is the number of sessions that currently are active\n with that client.  Only clients that actually have a session associated with them will be in this map.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/default-default-client-scopes",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getDefaultDefaultClientScopes",
+      "type" : "array",
+      "items" : {
+        "$ref" : "ClientScopeRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm default client scopes.",
+      "notes" : "Only name and ids are returned.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/default-default-client-scopes/{clientScopeId}",
+    "operations" : [ {
+      "method" : "PUT",
+      "nickname" : "addDefaultDefaultClientScope",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "clientScopeId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "removeDefaultDefaultClientScope",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "clientScopeId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/default-groups",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getDefaultGroups",
+      "type" : "array",
+      "items" : {
+        "$ref" : "GroupRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get group hierarchy.",
+      "notes" : "Only name and ids are returned.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/default-groups/{groupId}",
+    "operations" : [ {
+      "method" : "PUT",
+      "nickname" : "addDefaultGroup",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "groupId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "removeDefaultGroup",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "groupId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/default-optional-client-scopes",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getDefaultOptionalClientScopes",
+      "type" : "array",
+      "items" : {
+        "$ref" : "ClientScopeRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get realm optional client scopes.",
+      "notes" : "Only name and ids are returned.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/default-optional-client-scopes/{clientScopeId}",
+    "operations" : [ {
+      "method" : "PUT",
+      "nickname" : "addDefaultOptionalClientScope",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "clientScopeId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "removeDefaultOptionalClientScope",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "clientScopeId",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/events",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getEvents",
+      "type" : "array",
+      "items" : {
+        "$ref" : "EventRepresentation"
+      },
+      "parameters" : [ {
+        "type" : "array",
+        "description" : "The types of events to return",
+        "items" : {
+          "type" : "string"
+        },
+        "paramType" : "query",
+        "name" : "type"
+      }, {
+        "type" : "string",
+        "description" : "App or oauth client name",
+        "paramType" : "query",
+        "name" : "client"
+      }, {
+        "type" : "string",
+        "description" : "User id",
+        "paramType" : "query",
+        "name" : "user"
+      }, {
+        "type" : "string",
+        "description" : "From date",
+        "paramType" : "query",
+        "name" : "dateFrom"
+      }, {
+        "type" : "string",
+        "description" : "To date",
+        "paramType" : "query",
+        "name" : "dateTo"
+      }, {
+        "type" : "string",
+        "description" : "IP address",
+        "paramType" : "query",
+        "name" : "ipAddress"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "Paging offset",
+        "paramType" : "query",
+        "name" : "first"
+      }, {
+        "type" : "integer",
+        "format" : "int32",
+        "description" : "Maximum results size (defaults to 100)",
+        "paramType" : "query",
+        "name" : "max"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get events\n\n Returns all events, or filters them based on URL query parameters listed here",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "DELETE",
+      "nickname" : "clearEvents",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Delete all events"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/events/config",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getRealmEventsConfig",
+      "type" : "RealmEventsConfigRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Get the events provider configuration\n\n Returns JSON object with events provider configuration",
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "updateRealmEventsConfig",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "RealmEventsConfigRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Update the events provider\n\n Change the events provider and/or its configuration",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/group-by-path/{path}",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getGroupByPath",
+      "type" : "GroupRepresentation",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "path",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/logout-all",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "logoutAll",
+      "type" : "GlobalRequestResult",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Removes all user sessions.",
+      "notes" : "Any client that has an admin url will also be told to invalidate any sessions\n they have."
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/partial-export",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "partialExport",
+      "type" : "RealmRepresentation",
+      "parameters" : [ {
+        "type" : "boolean",
+        "paramType" : "query",
+        "name" : "exportGroupsAndRoles"
+      }, {
+        "type" : "boolean",
+        "paramType" : "query",
+        "name" : "exportClients"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Partial export of existing realm into a JSON file.",
+      "produces" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/partialImport",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "partialImport",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "PartialImportRepresentation",
+        "paramType" : "body",
+        "name" : "rep",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Partial import from a JSON file to an existing realm.",
+      "consumes" : [ "application/json" ]
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/push-revocation",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "pushRevocation",
+      "type" : "GlobalRequestResult",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Push the realm's revocation policy to any client that has an admin url associated with it."
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/sessions/{session}",
+    "operations" : [ {
+      "method" : "DELETE",
+      "nickname" : "deleteSession",
+      "type" : "void",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "path",
+        "name" : "session",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Remove a specific user session.",
+      "notes" : "Any client that has an admin url will also be told to invalidate this\n particular session."
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/testLDAPConnection",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "testLDAPConnection",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "paramType" : "form",
+        "name" : "action"
+      }, {
+        "type" : "string",
+        "paramType" : "form",
+        "name" : "connectionUrl"
+      }, {
+        "type" : "string",
+        "paramType" : "form",
+        "name" : "bindDn"
+      }, {
+        "type" : "string",
+        "paramType" : "form",
+        "name" : "bindCredential"
+      }, {
+        "type" : "string",
+        "paramType" : "form",
+        "name" : "useTruststoreSpi"
+      }, {
+        "type" : "string",
+        "paramType" : "form",
+        "name" : "connectionTimeout"
+      }, {
+        "type" : "string",
+        "paramType" : "form",
+        "name" : "componentId"
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Test LDAP connection"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/testSMTPConnection/{config}",
+    "operations" : [ {
+      "method" : "POST",
+      "nickname" : "testSMTPConnection",
+      "type" : "Response",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "SMTP server configuration",
+        "paramType" : "path",
+        "name" : "config",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "summary" : "Test SMTP connection with current logged in user"
+    } ]
+  }, {
+    "path" : "/admin/realms/{realm}/users-management-permissions",
+    "operations" : [ {
+      "method" : "GET",
+      "nickname" : "getUserMgmtPermissions",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "produces" : [ "application/json" ]
+    }, {
+      "method" : "PUT",
+      "nickname" : "setUsersManagementPermissionsEnabled",
+      "type" : "ManagementPermissionReference",
+      "parameters" : [ {
+        "type" : "ManagementPermissionReference",
+        "paramType" : "body",
+        "name" : "ref",
+        "required" : true
+      }, {
+        "type" : "string",
+        "description" : "realm name (not id!)",
+        "paramType" : "path",
+        "name" : "realm",
+        "required" : true
+      } ],
+      "consumes" : [ "application/json" ],
+      "produces" : [ "application/json" ]
+    } ]
+  } ],
+  "models" : {
+    "RoleRepresentation" : {
+      "id" : "RoleRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "composite" : {
+          "type" : "boolean"
+        },
+        "composites" : {
+          "type" : "RoleRepresentation-Composites"
+        },
+        "clientRole" : {
+          "type" : "boolean"
+        },
+        "containerId" : {
+          "type" : "string"
+        }
+      }
+    },
+    "RealmEventsConfigRepresentation" : {
+      "id" : "RealmEventsConfigRepresentation",
+      "properties" : {
+        "eventsEnabled" : {
+          "type" : "boolean"
+        },
+        "eventsExpiration" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "eventsListeners" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "enabledEventTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "adminEventsEnabled" : {
+          "type" : "boolean"
+        },
+        "adminEventsDetailsEnabled" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "IdentityProviderMapperRepresentation" : {
+      "id" : "IdentityProviderMapperRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "identityProviderAlias" : {
+          "type" : "string"
+        },
+        "identityProviderMapper" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "GroupRepresentation" : {
+      "id" : "GroupRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "path" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "realmRoles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "clientRoles" : {
+          "type" : "object"
+        },
+        "subGroups" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "GroupRepresentation"
+          }
+        },
+        "access" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ScopeMappingRepresentation" : {
+      "id" : "ScopeMappingRepresentation",
+      "properties" : {
+        "self" : {
+          "type" : "string"
+        },
+        "client" : {
+          "type" : "string"
+        },
+        "clientScope" : {
+          "type" : "string"
+        },
+        "roles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        }
+      }
+    },
+    "AuthenticationFlowRepresentation" : {
+      "id" : "AuthenticationFlowRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "topLevel" : {
+          "type" : "boolean"
+        },
+        "builtIn" : {
+          "type" : "boolean"
+        },
+        "authenticationExecutions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "AuthenticationExecutionExportRepresentation"
+          }
+        }
+      }
+    },
+    "ManagementPermissionReference" : {
+      "id" : "ManagementPermissionReference",
+      "properties" : {
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "resource" : {
+          "type" : "string"
+        },
+        "scopePermissions" : {
+          "type" : "object"
+        }
+      }
+    },
+    "AuthDetailsRepresentation" : {
+      "id" : "AuthDetailsRepresentation",
+      "properties" : {
+        "realmId" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "userId" : {
+          "type" : "string"
+        },
+        "ipAddress" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ResourceRepresentation" : {
+      "id" : "ResourceRepresentation",
+      "properties" : {
+        "_id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "uris" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "scopes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ScopeRepresentation"
+          },
+          "uniqueItems" : true
+        },
+        "icon_uri" : {
+          "type" : "string"
+        },
+        "ownerManagedAccess" : {
+          "type" : "boolean"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        }
+      }
+    },
+    "CredentialRepresentation" : {
+      "id" : "CredentialRepresentation",
+      "properties" : {
+        "type" : {
+          "type" : "string"
+        },
+        "device" : {
+          "type" : "string"
+        },
+        "value" : {
+          "type" : "string"
+        },
+        "hashedSaltedValue" : {
+          "type" : "string"
+        },
+        "salt" : {
+          "type" : "string"
+        },
+        "hashIterations" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "counter" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "algorithm" : {
+          "type" : "string"
+        },
+        "digits" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "period" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "createdDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "config" : {
+          "type" : "MultivaluedHashMap"
+        },
+        "temporary" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "MultivaluedHashMap" : {
+      "id" : "MultivaluedHashMap",
+      "properties" : {
+        "empty" : {
+          "type" : "boolean"
+        },
+        "threshold" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "loadFactor" : {
+          "type" : "number",
+          "format" : "float"
+        }
+      }
+    },
+    "PartialImportRepresentation" : {
+      "id" : "PartialImportRepresentation",
+      "properties" : {
+        "policy" : {
+          "type" : "string",
+          "enum" : [ "SKIP", "OVERWRITE", "FAIL" ]
+        },
+        "ifResourceExists" : {
+          "type" : "string"
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserRepresentation"
+          }
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "GroupRepresentation"
+          }
+        },
+        "clients" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ClientRepresentation"
+          }
+        },
+        "identityProviders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "IdentityProviderRepresentation"
+          }
+        },
+        "roles" : {
+          "type" : "RolesRepresentation"
+        }
+      }
+    },
+    "UserFederationProviderRepresentation" : {
+      "id" : "UserFederationProviderRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "providerName" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "fullSyncPeriod" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "changedSyncPeriod" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "lastSync" : {
+          "type" : "integer",
+          "format" : "int32"
+        }
+      }
+    },
+    "AdminEventRepresentation" : {
+      "id" : "AdminEventRepresentation",
+      "properties" : {
+        "time" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "realmId" : {
+          "type" : "string"
+        },
+        "authDetails" : {
+          "type" : "AuthDetailsRepresentation"
+        },
+        "operationType" : {
+          "type" : "string"
+        },
+        "resourceType" : {
+          "type" : "string"
+        },
+        "resourcePath" : {
+          "type" : "string"
+        },
+        "representation" : {
+          "type" : "string"
+        },
+        "error" : {
+          "type" : "string"
+        }
+      }
+    },
+    "ProtocolMapperRepresentation" : {
+      "id" : "ProtocolMapperRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "protocol" : {
+          "type" : "string"
+        },
+        "protocolMapper" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "IdentityProviderRepresentation" : {
+      "id" : "IdentityProviderRepresentation",
+      "properties" : {
+        "alias" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "internalId" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "trustEmail" : {
+          "type" : "boolean"
+        },
+        "storeToken" : {
+          "type" : "boolean"
+        },
+        "addReadTokenRoleOnCreate" : {
+          "type" : "boolean"
+        },
+        "linkOnly" : {
+          "type" : "boolean"
+        },
+        "firstBrokerLoginFlowAlias" : {
+          "type" : "string"
+        },
+        "postBrokerLoginFlowAlias" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ScopeRepresentation" : {
+      "id" : "ScopeRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "iconUri" : {
+          "type" : "string"
+        },
+        "policies" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "PolicyRepresentation"
+          }
+        },
+        "resources" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ResourceRepresentation"
+          }
+        },
+        "displayName" : {
+          "type" : "string"
+        }
+      }
+    },
+    "UserFederationMapperRepresentation" : {
+      "id" : "UserFederationMapperRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "federationProviderDisplayName" : {
+          "type" : "string"
+        },
+        "federationMapperType" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "AuthenticationExecutionExportRepresentation" : {
+      "id" : "AuthenticationExecutionExportRepresentation",
+      "properties" : {
+        "authenticatorConfig" : {
+          "type" : "string"
+        },
+        "authenticator" : {
+          "type" : "string"
+        },
+        "authenticatorFlow" : {
+          "type" : "boolean"
+        },
+        "requirement" : {
+          "type" : "string"
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "autheticatorFlow" : {
+          "type" : "boolean"
+        },
+        "flowAlias" : {
+          "type" : "string"
+        },
+        "userSetupAllowed" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "AuthenticatorConfigRepresentation" : {
+      "id" : "AuthenticatorConfigRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "alias" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "UserRepresentation" : {
+      "id" : "UserRepresentation",
+      "properties" : {
+        "self" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "origin" : {
+          "type" : "string"
+        },
+        "createdTimestamp" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "username" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "emailVerified" : {
+          "type" : "boolean"
+        },
+        "firstName" : {
+          "type" : "string"
+        },
+        "lastName" : {
+          "type" : "string"
+        },
+        "email" : {
+          "type" : "string"
+        },
+        "federationLink" : {
+          "type" : "string"
+        },
+        "serviceAccountClientId" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "credentials" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "CredentialRepresentation"
+          }
+        },
+        "disableableCredentialTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "requiredActions" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "federatedIdentities" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "FederatedIdentityRepresentation"
+          }
+        },
+        "realmRoles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "clientRoles" : {
+          "type" : "object"
+        },
+        "clientConsents" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserConsentRepresentation"
+          }
+        },
+        "notBefore" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "access" : {
+          "type" : "object"
+        }
+      }
+    },
+    "RequiredActionProviderRepresentation" : {
+      "id" : "RequiredActionProviderRepresentation",
+      "properties" : {
+        "alias" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "defaultAction" : {
+          "type" : "boolean"
+        },
+        "priority" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ResourceServerRepresentation" : {
+      "id" : "ResourceServerRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "allowRemoteResourceManagement" : {
+          "type" : "boolean"
+        },
+        "policyEnforcementMode" : {
+          "type" : "string",
+          "enum" : [ "ENFORCING", "PERMISSIVE", "DISABLED" ]
+        },
+        "resources" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ResourceRepresentation"
+          }
+        },
+        "policies" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "PolicyRepresentation"
+          }
+        },
+        "scopes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ScopeRepresentation"
+          }
+        }
+      }
+    },
+    "RealmRepresentation" : {
+      "id" : "RealmRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "realm" : {
+          "type" : "string"
+        },
+        "displayName" : {
+          "type" : "string"
+        },
+        "displayNameHtml" : {
+          "type" : "string"
+        },
+        "notBefore" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "revokeRefreshToken" : {
+          "type" : "boolean"
+        },
+        "refreshTokenMaxReuse" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "accessTokenLifespan" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "accessTokenLifespanForImplicitFlow" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "ssoSessionIdleTimeout" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "ssoSessionMaxLifespan" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "offlineSessionIdleTimeout" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "offlineSessionMaxLifespanEnabled" : {
+          "type" : "boolean"
+        },
+        "offlineSessionMaxLifespan" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "accessCodeLifespan" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "accessCodeLifespanUserAction" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "accessCodeLifespanLogin" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "actionTokenGeneratedByAdminLifespan" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "actionTokenGeneratedByUserLifespan" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "sslRequired" : {
+          "type" : "string"
+        },
+        "registrationAllowed" : {
+          "type" : "boolean"
+        },
+        "registrationEmailAsUsername" : {
+          "type" : "boolean"
+        },
+        "rememberMe" : {
+          "type" : "boolean"
+        },
+        "verifyEmail" : {
+          "type" : "boolean"
+        },
+        "loginWithEmailAllowed" : {
+          "type" : "boolean"
+        },
+        "duplicateEmailsAllowed" : {
+          "type" : "boolean"
+        },
+        "resetPasswordAllowed" : {
+          "type" : "boolean"
+        },
+        "editUsernameAllowed" : {
+          "type" : "boolean"
+        },
+        "bruteForceProtected" : {
+          "type" : "boolean"
+        },
+        "permanentLockout" : {
+          "type" : "boolean"
+        },
+        "maxFailureWaitSeconds" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "minimumQuickLoginWaitSeconds" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "waitIncrementSeconds" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "quickLoginCheckMilliSeconds" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "maxDeltaTimeSeconds" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "failureFactor" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "roles" : {
+          "type" : "RolesRepresentation"
+        },
+        "groups" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "GroupRepresentation"
+          }
+        },
+        "defaultRoles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "defaultGroups" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "passwordPolicy" : {
+          "type" : "string"
+        },
+        "otpPolicyType" : {
+          "type" : "string"
+        },
+        "otpPolicyAlgorithm" : {
+          "type" : "string"
+        },
+        "otpPolicyInitialCounter" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "otpPolicyDigits" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "otpPolicyLookAheadWindow" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "otpPolicyPeriod" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "otpSupportedApplications" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "users" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserRepresentation"
+          }
+        },
+        "federatedUsers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserRepresentation"
+          }
+        },
+        "scopeMappings" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ScopeMappingRepresentation"
+          }
+        },
+        "clientScopeMappings" : {
+          "type" : "object"
+        },
+        "clients" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ClientRepresentation"
+          }
+        },
+        "clientScopes" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ClientScopeRepresentation"
+          }
+        },
+        "defaultDefaultClientScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "defaultOptionalClientScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "browserSecurityHeaders" : {
+          "type" : "object"
+        },
+        "smtpServer" : {
+          "type" : "object"
+        },
+        "userFederationProviders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserFederationProviderRepresentation"
+          }
+        },
+        "userFederationMappers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "UserFederationMapperRepresentation"
+          }
+        },
+        "loginTheme" : {
+          "type" : "string"
+        },
+        "accountTheme" : {
+          "type" : "string"
+        },
+        "adminTheme" : {
+          "type" : "string"
+        },
+        "emailTheme" : {
+          "type" : "string"
+        },
+        "eventsEnabled" : {
+          "type" : "boolean"
+        },
+        "eventsExpiration" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "eventsListeners" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "enabledEventTypes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "adminEventsEnabled" : {
+          "type" : "boolean"
+        },
+        "adminEventsDetailsEnabled" : {
+          "type" : "boolean"
+        },
+        "identityProviders" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "IdentityProviderRepresentation"
+          }
+        },
+        "identityProviderMappers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "IdentityProviderMapperRepresentation"
+          }
+        },
+        "protocolMappers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ProtocolMapperRepresentation"
+          }
+        },
+        "components" : {
+          "type" : "MultivaluedHashMap"
+        },
+        "internationalizationEnabled" : {
+          "type" : "boolean"
+        },
+        "supportedLocales" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "defaultLocale" : {
+          "type" : "string"
+        },
+        "authenticationFlows" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "AuthenticationFlowRepresentation"
+          }
+        },
+        "authenticatorConfig" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "AuthenticatorConfigRepresentation"
+          }
+        },
+        "requiredActions" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "RequiredActionProviderRepresentation"
+          }
+        },
+        "browserFlow" : {
+          "type" : "string"
+        },
+        "registrationFlow" : {
+          "type" : "string"
+        },
+        "directGrantFlow" : {
+          "type" : "string"
+        },
+        "resetCredentialsFlow" : {
+          "type" : "string"
+        },
+        "clientAuthenticationFlow" : {
+          "type" : "string"
+        },
+        "dockerAuthenticationFlow" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "keycloakVersion" : {
+          "type" : "string"
+        },
+        "userManagedAccessAllowed" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "RolesRepresentation" : {
+      "id" : "RolesRepresentation",
+      "properties" : {
+        "realm" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "RoleRepresentation"
+          }
+        },
+        "client" : {
+          "type" : "object"
+        }
+      }
+    },
+    "ComponentExportRepresentation" : {
+      "id" : "ComponentExportRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "providerId" : {
+          "type" : "string"
+        },
+        "subType" : {
+          "type" : "string"
+        },
+        "subComponents" : {
+          "type" : "MultivaluedHashMap"
+        },
+        "config" : {
+          "type" : "MultivaluedHashMap"
+        }
+      }
+    },
+    "EventRepresentation" : {
+      "id" : "EventRepresentation",
+      "properties" : {
+        "time" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "realmId" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "userId" : {
+          "type" : "string"
+        },
+        "sessionId" : {
+          "type" : "string"
+        },
+        "ipAddress" : {
+          "type" : "string"
+        },
+        "error" : {
+          "type" : "string"
+        },
+        "details" : {
+          "type" : "object"
+        }
+      }
+    },
+    "RoleRepresentation-Composites" : {
+      "id" : "RoleRepresentation-Composites",
+      "properties" : {
+        "realm" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "client" : {
+          "type" : "object"
+        }
+      }
+    },
+    "UserConsentRepresentation" : {
+      "id" : "UserConsentRepresentation",
+      "properties" : {
+        "clientId" : {
+          "type" : "string"
+        },
+        "grantedClientScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "createdDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        },
+        "lastUpdatedDate" : {
+          "type" : "integer",
+          "format" : "int64"
+        }
+      }
+    },
+    "ClientRepresentation" : {
+      "id" : "ClientRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "clientId" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "rootUrl" : {
+          "type" : "string"
+        },
+        "adminUrl" : {
+          "type" : "string"
+        },
+        "baseUrl" : {
+          "type" : "string"
+        },
+        "surrogateAuthRequired" : {
+          "type" : "boolean"
+        },
+        "enabled" : {
+          "type" : "boolean"
+        },
+        "clientAuthenticatorType" : {
+          "type" : "string"
+        },
+        "secret" : {
+          "type" : "string"
+        },
+        "registrationAccessToken" : {
+          "type" : "string"
+        },
+        "defaultRoles" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "redirectUris" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "webOrigins" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "notBefore" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "bearerOnly" : {
+          "type" : "boolean"
+        },
+        "consentRequired" : {
+          "type" : "boolean"
+        },
+        "standardFlowEnabled" : {
+          "type" : "boolean"
+        },
+        "implicitFlowEnabled" : {
+          "type" : "boolean"
+        },
+        "directAccessGrantsEnabled" : {
+          "type" : "boolean"
+        },
+        "serviceAccountsEnabled" : {
+          "type" : "boolean"
+        },
+        "authorizationServicesEnabled" : {
+          "type" : "boolean"
+        },
+        "publicClient" : {
+          "type" : "boolean"
+        },
+        "frontchannelLogout" : {
+          "type" : "boolean"
+        },
+        "protocol" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "authenticationFlowBindingOverrides" : {
+          "type" : "object"
+        },
+        "fullScopeAllowed" : {
+          "type" : "boolean"
+        },
+        "nodeReRegistrationTimeout" : {
+          "type" : "integer",
+          "format" : "int32"
+        },
+        "registeredNodes" : {
+          "type" : "object"
+        },
+        "protocolMappers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ProtocolMapperRepresentation"
+          }
+        },
+        "defaultClientScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "optionalClientScopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "authorizationSettings" : {
+          "type" : "ResourceServerRepresentation"
+        },
+        "access" : {
+          "type" : "object"
+        },
+        "origin" : {
+          "type" : "string"
+        }
+      }
+    },
+    "PolicyRepresentation" : {
+      "id" : "PolicyRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "type" : {
+          "type" : "string"
+        },
+        "policies" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "resources" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "scopes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          },
+          "uniqueItems" : true
+        },
+        "logic" : {
+          "type" : "string",
+          "enum" : [ "POSITIVE", "NEGATIVE" ]
+        },
+        "decisionStrategy" : {
+          "type" : "string",
+          "enum" : [ "AFFIRMATIVE", "UNANIMOUS", "CONSENSUS" ]
+        },
+        "owner" : {
+          "type" : "string"
+        },
+        "config" : {
+          "type" : "object"
+        }
+      }
+    },
+    "GlobalRequestResult" : {
+      "id" : "GlobalRequestResult",
+      "properties" : {
+        "successRequests" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        },
+        "failedRequests" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "ClientScopeRepresentation" : {
+      "id" : "ClientScopeRepresentation",
+      "properties" : {
+        "id" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "protocol" : {
+          "type" : "string"
+        },
+        "attributes" : {
+          "type" : "object"
+        },
+        "protocolMappers" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "ProtocolMapperRepresentation"
+          }
+        }
+      }
+    },
+    "FederatedIdentityRepresentation" : {
+      "id" : "FederatedIdentityRepresentation",
+      "properties" : {
+        "identityProvider" : {
+          "type" : "string"
+        },
+        "userId" : {
+          "type" : "string"
+        },
+        "userName" : {
+          "type" : "string"
+        }
+      }
+    }
+  }
+}
